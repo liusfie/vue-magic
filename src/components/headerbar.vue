@@ -1,7 +1,7 @@
 <template>
-  <el-menu :default-active="$route.path" class="el-menu-demo"  mode="horizontal"  @select="handleSelect"  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
+  <el-menu :default-active="$route.path" v-loading="listLoading" class="el-menu-demo" mode="horizontal"  @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
     <template v-for="data in menuList">
-      <el-submenu :index="data.index" :key="data.index" v-if="typeof data.item !== 'undefined'">
+      <el-submenu :index="data.index" :key="data.index" :show-timeout=0 hide-timeout=0 v-if="typeof data.item !== 'undefined'">
         <template slot="title">
           {{data.title}}
         </template>
@@ -19,44 +19,14 @@
 </template>
 
 <script>
+import { getList } from '@/api/headerbar'
+
 export default {
   name: 'headerbar',
   data () {
     return {
-      menuList: [
-        {
-          index: '/homepage',
-          title: '主页'
-        },
-        {
-          index: '/opstool',
-          title: '运维工具',
-          item: [
-            {
-              index: '/opstool/autodeny',
-              title: '自动封禁'
-            },
-            {
-              index: '/opstool/autodeny2',
-              title: '自动封禁2'
-            }
-          ]
-        },
-        {
-          index: 'other',
-          title: '其他',
-          item: [
-            {
-              index: '/login',
-              title: '登录'
-            },
-            {
-              index: '/404',
-              title: '404页面'
-            }
-          ]
-        }
-      ]
+      menuList: null,
+      listLoading: false
     }
   },
   created () {
@@ -67,24 +37,10 @@ export default {
       console.log(key, keyPath)
     },
     getMenuList () {
-      this.setActiveIndex(this.menuList, this.$route.path)
-      // 把MenuList的数据存入Vuex中
-      this.$store.commit('headerbar/setMenuList', this.menuList)
-    },
-    // 获取route的信息，并设置activeIndex
-    setActiveIndex (item, currentPath) {
-      item.forEach(itemData => {
-        if (itemData.hasOwnProperty('routerLinkTo')) {
-          if (itemData.routerLinkTo === currentPath) {
-            this.$nextTick(() => {
-              this.defaultActive = itemData.index
-            })
-            return false
-          }
-        }
-        if (itemData.hasOwnProperty('item')) {
-          this.setActiveIndex(itemData.item, currentPath)
-        }
+      this.listLoading = true
+      getList(this.listQuery).then(response => {
+        this.menuList = response.data.menuList
+        this.listLoading = false
       })
     }
   }
