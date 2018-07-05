@@ -1,4 +1,4 @@
-# kantai
+# vue-kantai
 
 > A Vue.js project
 
