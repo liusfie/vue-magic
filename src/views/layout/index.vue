@@ -5,9 +5,7 @@
         <header-bar></header-bar>
       </el-header>
       <el-container>
-      <el-aside width="200px">
-        <side-bar></side-bar>
-      </el-aside>
+
       <el-main>
         <router-view/>
       </el-main>

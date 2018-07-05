@@ -1,7 +1,7 @@
 <template>
-  <el-menu :default-active="$route.path" v-loading="listLoading" class="el-menu-demo" mode="horizontal"  @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
+  <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" mode="horizontal"  @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
     <template v-for="data in menuList">
-      <el-submenu :index="data.index" :key="data.index" :show-timeout=0 hide-timeout=0 v-if="typeof data.item !== 'undefined'">
+      <el-submenu :index="data.index" :key="data.index" :show-timeout=0 :hide-timeout=0 v-if="typeof data.item !== 'undefined'">
         <template slot="title">
           {{data.title}}
         </template>
@@ -20,13 +20,12 @@
 
 <script>
 import { getList } from '@/api/headerbar'
-
 export default {
   name: 'headerbar',
   data () {
     return {
       menuList: null,
-      listLoading: false
+      loading: false
     }
   },
   created () {
@@ -37,10 +36,10 @@ export default {
       console.log(key, keyPath)
     },
     getMenuList () {
-      this.listLoading = true
+      this.loading = true
       getList(this.listQuery).then(response => {
         this.menuList = response.data.menuList
-        this.listLoading = false
+        this.loading = false
       })
     }
   }
