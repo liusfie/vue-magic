@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Layout from '@/views/layout/index'
+import Home from '@/router/home/index'
 import news from '@/router/news/index'
-import opsTool from '@/router/opstool/index'
+import autodeny from '@/router/autodeny/index'
 
 Vue.use(VueRouter)
 
@@ -13,15 +14,16 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/404', component: () => import('@/views/404') },
-    { path: '/homepage', component: () => import('@/views/homepage/index') },
+    // { path: '/homepage', component: () => import('@/views/homepage/index') },
 
     { path: '/',
       component: Layout,
       name: 'Layout',
-      redirect: '/homepage',
+      redirect: '/home',
       children: [
+        ...Home,
         ...news,
-        ...opsTool
+        ...autodeny
       ]
     }
     // { path: '*', redirect: '/404' }

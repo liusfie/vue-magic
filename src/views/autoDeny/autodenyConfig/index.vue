@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { getTableData } from '@/api/autodeny'
+import { getBlockconf } from '@/api/autoDeny/blockConfAPI'
 import mytable from '@/components/mytable.vue'
 export default {
   name: 'index',
@@ -26,7 +26,7 @@ export default {
       console.log(index, row)
     },
     getData () {
-      getTableData(this.listQuery).then(response => {
+      getBlockconf(this.listQuery).then(response => {
         this.columnData = response.data.columnData
         this.tableData = response.data.tableData
         this.loading = true
