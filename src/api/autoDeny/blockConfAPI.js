@@ -4,11 +4,11 @@ export function getBlockconf (params) {
   return fetch({
     url: '/autodeny/blockconf',
     method: 'get',
-    params
+    params: params
   })
 }
 
-export function postBlockconf (data) {
+export function addBlockconf (data) {
   return fetch({
     url: '/autodeny/blockconf',
     method: 'post',
@@ -16,10 +16,10 @@ export function postBlockconf (data) {
   })
 }
 
-export function putBlockconf (data) {
+export function updateBlockconf (id, data) {
   return fetch({
-    url: '/autodeny/blockconf',
-    method: 'put',
+    url: `/autodeny/blockconf/${id}`,
+    method: 'post',
     data: data
   })
 }

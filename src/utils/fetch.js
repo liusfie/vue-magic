@@ -33,6 +33,7 @@ const service = axios.create({
     }
   ]
 })
+
 // request拦截器
 service.interceptors.request.use(
   config => {
@@ -43,6 +44,7 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
 // response拦截器
 service.interceptors.response.use(
   response => {
@@ -53,7 +55,6 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
-
       return Promise.reject(new Error('error'))
     } else {
       return response.data
@@ -70,4 +71,5 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
 export default service

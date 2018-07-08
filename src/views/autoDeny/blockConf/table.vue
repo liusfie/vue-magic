@@ -3,26 +3,39 @@
     <el-col>
       <el-row>
         <el-col>
-          <el-table
-    :data="tableData"
-     v-loading="loading">
-      <el-table-column align="center" prop="name" label="名称"></el-table-column>
-      <el-table-column align="center" prop="server_name" label="域名"></el-table-column>
-      <el-table-column align="center" prop="threshold" label="阈值"></el-table-column>
-      <el-table-column align="center" prop="increase" label="增长量"></el-table-column>
-      <el-table-column align="center" prop="valid" label="启用"></el-table-column>
-      <el-table-column align="center" prop="remarks" label="备注"></el-table-column>
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-col :span="12">
-            <el-button type="primary" size="small" @click="updateDialog(scope.row)">修改</el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button type="danger" size="small" @click="deleteDialog(scope.row)">删除</el-button>
-          </el-col>
-        </template>
-      </el-table-column>
-    </el-table>
+          <el-form :inline="true" :model="queryForm">
+            <el-form-item label="域名">
+              <el-input v-model.trim="queryForm.server_name"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="fetchQuery">查询</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col>
+          <el-table :data="tableData.list" stripe v-loading="loading">
+            <el-table-column align="center" prop="name" label="名称"></el-table-column>
+            <el-table-column align="center" prop="server_name" label="域名"></el-table-column>
+            <el-table-column align="center" prop="threshold" label="阈值"></el-table-column>
+            <el-table-column align="center" prop="increase" label="增长量"></el-table-column>
+               <el-table-column align="center" label="启用">
+                 <template slot-scope="scope">
+                   <el-switch v-model=scope.row.valid active-color="#13ce66" inactive-color="#808080" @change="changeSwitch(scope.row.id,scope.row.valid)">
+                   </el-switch>
+                 </template>
+               </el-table-column>
+            <el-table-column align="center" prop="remarks" label="备注"></el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <el-col :span="12">
+                  <el-button type="primary" size="small" @click="updateDialog(scope.row)">修改</el-button>
+                </el-col>
+                <el-col :span="12">
+                  <el-button type="danger" size="small" @click="deleteDialog(scope.row)">删除</el-button>
+                </el-col>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-col>
       </el-row>
       <el-row type="flex" justify="space-between">
@@ -30,7 +43,8 @@
           <el-button type="primary" class="insert" @click="showAddDialog">新增</el-button>
         </el-col>
         <el-col :span="12">
-          <add-update-dialog @handleRefresh="initTable" :dialogKind="dialogKind" :initDialog.sync="initDialog"></add-update-dialog>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[4,8,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"></el-pagination>
+          <add-update-dialog> @handleRefresh="handlePage" :dialogKind="dialogKind" :initDialog.sync="initDialog"></add-update-dialog>
         </el-col>
       </el-row>
     </el-col>
@@ -39,7 +53,7 @@
 
 <script>
 import utils from '@/utils/utils'
-import { getBlockconf, deleteBlockconf } from '@/api/autoDeny/blockConfAPI'
+import { getBlockconf, deleteBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
 import addUpdateDialog from './dialog'
 
 export default {
@@ -47,11 +61,24 @@ export default {
     // 添加、修改dialog
     addUpdateDialog
   },
-  filters: {},
   data () {
     return {
+      // 查询表单
+      queryForm: {
+        server_name: '',
+        pageSize: 10,
+        pageNum: 1
+      },
       // 配置种类表格数据
-      tableData: [],
+      tableData: {
+        list: [],
+        // 当前页
+        pageNum: 1,
+        // 当前每页大小
+        pageSize: 10,
+        // 总条目
+        total: 1
+      },
       // 表格加载状态
       loading: false,
       // 初始化dialog
@@ -67,23 +94,82 @@ export default {
     this.initTable()
   },
   methods: {
+    // 配置启用的开关
+    changeSwitch (rowid, rowvalid) {
+      const data = {}
+      data.valid = rowvalid
+      updateBlockconf(rowid, data).then(res => {
+        if (res.code === 20000) {
+          utils.message.call(this, res.msg, 'success')
+        } else {
+          utils.message.call(this, res.msg, 'error')
+          // 刷新页面
+          this.initTable()
+        }
+      })
+    },
     // 初始化表格数据
     initTable () {
-      this.fetchAPI()
+      const initQuery = {
+        pageNum: 1,
+        pageSize: 4
+      }
+      this.fetchAPI(initQuery)
     },
     // 请求api
-    fetchAPI () {
+    fetchAPI (params) {
       this.loading = true
-      getBlockconf().then(res => {
-        setTimeout(() => {
-          this.loading = false
-        }, 1000)
+      getBlockconf(params).then(res => {
+        this.loading = false
         if (res.code === 20000) {
-          this.tableData = res.data
+          this.tableData.list = res.data
         } else {
           utils.message.call(this, res.msg, 'error')
         }
       })
+    },
+    // 查询奖品（每次都从当前页开始）
+    handlePage () {
+      // 查询条件
+      const pageForm = {
+        ...this.queryForm,
+        pageNum: this.tableData.pageNum || 1,
+        pageSize: this.tableData.pageSize || 10
+      }
+      // 请求API
+      this.fetchAPI(pageForm)
+    },
+    // 查询表格数据
+    fetchQuery () {
+      this.fetchAPI(this.queryForm)
+    },
+    // 每页大小改变的蝴蝶效应
+    changedPageSize (val) {
+      // 更新表格数据中的每页大小
+      this.tableData.pageSize = val
+      // 当前页是否超过了最大页
+      const maxPageNum = Math.ceil(
+        this.tableData.total / this.tableData.pageSize
+      )
+      if (this.tableData.pageNum > maxPageNum) {
+        this.tableData.pageNum = maxPageNum
+      }
+      // 当前页是否小于1
+      if (this.tableData.pageNum < 1) {
+        this.tableData.pageNum = 1
+      }
+    },
+    // 每页大小改变
+    handleSizeChange (val) {
+      // 处理每页大小改变的蝴蝶效应
+      this.changedPageSize(val)
+      // 查询奖品种类
+      this.handlePage()
+    },
+    // 当前页的改变
+    handleCurrentChange () {
+      // 查询奖品种类
+      this.handlePage()
     },
     // 触发dialog
     showAddDialog () {
@@ -103,15 +189,15 @@ export default {
     },
     // 触发删除dialog
     deleteDialog (rowData) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该配置, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
           deleteBlockconf(rowData.id).then(res => {
-            if (res.code === 200) {
-              utils.message.call(this, '删除成功!', 'success')
+            if (res.code === 20000) {
+              utils.message.call(this, res.msg, 'success')
               // 刷新页面
               this.initTable()
             } else {
@@ -131,6 +217,7 @@ export default {
   .table-config {
     .insert {
       margin-top: 10px;
+      float:left
     }
   }
 </style>
