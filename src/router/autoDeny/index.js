@@ -3,7 +3,7 @@ export default [
   {
     path: '/autodeny',
     component: utils.asyncComponent('autoDeny/index'),
-    redirect: '/autodeny/blockList',
+    redirect: '/autodeny/blockconf',
     children: [
       {
         path: 'blockconf',

@@ -1,23 +1,33 @@
 <template>
-  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
+  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="8%">
     <el-form :model="form" label-position="right" label-width="180px" :rules="rules" ref="forms">
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model.trim="form.name" placeholder="请输入名称"/>
+      <el-form-item label="头像名称：" prop="name">
+        <el-input v-model.trim="form.name" placeholder="请输入头像名称"></el-input>
       </el-form-item>
-      <el-form-item label="域名：" prop="server_name">
-        <el-input v-model.trim="form.server_name" placeholder="请输入名称，如：api.ttacp8.com"/>
+      <el-form-item label="头像类型：" prop="avatarLevelId">
+        <el-select v-model.number="form.avatarLevelId" filterable>
+          <el-option v-for="avatarLevel in avatarLevels" :key="avatarLevel.id" :value="avatarLevel.id" :label="avatarLevel.name"></el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="阈值：" prop="threshold">
-        <el-input v-model.number="form.threshold" placeholder="请输入触发封禁的阈值"/>
+      <el-form-item label="售价：" prop="price">
+        <el-input v-model.number="form.price" placeholder="请输入售价">
+          <template slot-scope="append">钻石</template>
+        </el-input>
       </el-form-item>
-      <el-form-item label="增长量：" prop="increase">
-        <el-input v-model.number="form.increase" placeholder="请输入触发封禁的增长量"/>
+      <el-form-item label="头像权重：" prop="weight">
+        <el-input v-model.number="form.weight" placeholder="请输入头像权重"></el-input>
       </el-form-item>
-      <el-form-item label="是否激活" prop="invalid">
-        <el-switch v-model.number="form.valid"/>
+      <el-form-item label="开始时间：" prop="startTime">
+        <el-date-picker type="datetime" v-model="form.startTime" placeholder="请选择日期时间" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" :editable="false"></el-date-picker>
       </el-form-item>
-      <el-form-item label="名称：" prop="remarks">
-        <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>
+      <el-form-item label="结束时间：" prop="endTime">
+        <el-date-picker type="datetime" v-model="form.endTime" placeholder="请选择日期时间" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" :editable="false"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="大头像上传：" prop="picUrl">
+        <upload :action="uploadAction" imgUrl="picUrl" ref="picUrl" :form="form"></upload>
+      </el-form-item>
+      <el-form-item label="缩略图头像上传：" prop="thumbnailUrl">
+        <upload :action="uploadAction" imgUrl="thumbnailUrl" ref="thumbnailUrl" :form="form"></upload>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -96,6 +106,34 @@ export default {
             type: 'number',
             message: '头像权重范围1~9999',
             trigger: 'change'
+          }
+        ],
+        startTime: [
+          {
+            required: true,
+            message: '请输入日期时间',
+            trigger: 'blur'
+          }
+        ],
+        endTime: [
+          {
+            required: true,
+            message: '请输入日期时间',
+            trigger: 'blur'
+          }
+        ],
+        picUrl: [
+          {
+            required: true,
+            message: '请至少上传一张大头像地址哦~ O(∩_∩)O',
+            trigger: 'blur'
+          }
+        ],
+        thumbnailUrl: [
+          {
+            required: true,
+            message: '请至少上传一张缩略图头像地址哦~ O(∩_∩)O',
+            trigger: 'blur'
           }
         ]
       }

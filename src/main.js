@@ -7,6 +7,12 @@ import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+// 按需引入v-charts
+import VeLine from 'v-charts/lib/line.common' // 折线图
+import Veistogram from 'v-charts/lib/histogram.common' // 柱状图
+Vue.component(VeLine.name, VeLine)
+Vue.component(Veistogram.name, Veistogram)
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

@@ -14,7 +14,7 @@
         </el-col>
         <el-col>
           <el-table :data="tableData.list" stripe border v-loading="loading">
-            <el-table-column align="center" prop="name" label="名称"/>
+            <el-table-column align="center" prop="name" label="名称/"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
             <el-table-column align="center" prop="increase" width="80" label="增长量"/>
@@ -174,7 +174,7 @@ export default {
     showAddDialog () {
       // 暂时解决日期时间组件的弹出层不跟随dialog
       document.body.scrollTop = 0
-      this.dialogKind.title = '添加配置'
+      this.dialogKind.title = 'add'
       this.dialogKind.rowData = {}
       this.initDialog = true
     },

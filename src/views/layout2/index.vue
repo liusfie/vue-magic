@@ -4,7 +4,6 @@
         <header-bar/>
       </el-header>
       <el-container>
-        <el-aside><aside-bar/></el-aside>
       <el-main>
         <router-view/>
       </el-main>
@@ -14,11 +13,10 @@
 
 <script>
 import headerBar from '@/components/headerbar.vue'
-import asideBar from '@/components/asidebar.vue'
 
 export default {
   name: 'index',
-  components: {headerBar, asideBar}
+  components: {headerBar}
 }
 </script>
 
