@@ -17,11 +17,9 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-## About API
-get -> query
-post -> add
-put -> update
-delete -> delete
+## 版本
+npm 5.6.0
+node v8.11.2
 
 ## 关于proxy.js：
 dev环境，由于跨域问题，利用request做了个代理，delete方法会识别成“OPTIONS”，所以代理上判断方法为“OPTIONS”的统一转发为delete方法。

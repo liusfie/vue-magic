@@ -4,7 +4,7 @@
         <header-bar/>
       </el-header>
       <el-container>
-        <el-aside><aside-bar/></el-aside>
+        <el-aside style="background-color:#FFFAFA" ><aside-bar/></el-aside>
       <el-main>
         <router-view/>
       </el-main>

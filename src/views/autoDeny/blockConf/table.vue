@@ -174,7 +174,7 @@ export default {
     showAddDialog () {
       // 暂时解决日期时间组件的弹出层不跟随dialog
       document.body.scrollTop = 0
-      this.dialogKind.title = '添加配置'
+      this.dialogKind.title = 'add'
       this.dialogKind.rowData = {}
       this.initDialog = true
     },

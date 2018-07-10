@@ -1,6 +1,6 @@
 <template>
   <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
-    <el-form :model="form" label-position="right" label-width="180px" :rules="rules" ref="forms">
+    <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
       <el-form-item label="名称：" prop="name">
         <el-input v-model.trim="form.name" placeholder="请输入名称"/>
       </el-form-item>
@@ -13,10 +13,10 @@
       <el-form-item label="增长量：" prop="increase">
         <el-input v-model.number="form.increase" placeholder="请输入触发封禁的增长量"/>
       </el-form-item>
-      <el-form-item label="是否激活" prop="invalid">
+      <el-form-item label="是否激活：" prop="invalid">
         <el-switch v-model.number="form.valid"/>
       </el-form-item>
-      <el-form-item label="名称：" prop="remarks">
+      <el-form-item label="备注：" prop="remarks">
         <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>
       </el-form-item>
     </el-form>
@@ -28,8 +28,7 @@
 
 <script>
 import utils from '@/utils/utils'
-import { getBlockconf, addBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
-import { formatDate } from '@/filters/format'
+import { addBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
 
 export default {
   props: {
@@ -45,57 +44,48 @@ export default {
       required: true
     }
   },
-  data () {
+  data: function () {
     return {
       // dialog开关
       formVisible: false,
       // 表单数据
       form: {
-        id: '',
         name: '',
-        price: '',
-        picUrl: '',
-        thumbnailUrl: '',
-        weight: '',
-        startTime: '',
-        endTime: '',
-        avatarLevelId: ''
+        server_name: '',
+        threshold: '',
+        increase: '',
+        valid: '',
+        remarks: ''
       },
-      avatarLevels: [],
-      timeArr: ['startTime', 'endTime'],
-      uploadArr: ['picUrl', 'thumbnailUrl'],
-      uploadAction: `${this.$store.state.URL.uploadImg}avatars`,
+      // products: [],
       // 表单规则
       rules: {
-        name: [{ required: true, message: '请输入头像名称', trigger: 'blur' }],
-        avatarLevelId: [
+        name: [{required: true, message: '请输入名称', trigger: 'blur'}],
+        server_name: [
           {
             required: true,
-            message: '请选择头像类型',
+            message: '请输入要封禁的域名',
             trigger: 'blur'
           }
         ],
-        price: [
+        threshold: [
           {
             required: true,
             type: 'number',
-            message: '请填写售价',
-            trigger: 'blur'
-          }
-        ],
-        weight: [
-          {
-            required: true,
-            type: 'number',
-            message: '请填写头像权重',
-            trigger: 'blur'
-          },
-          {
             min: 1,
             max: 9999,
+            message: '请填写封禁阈值（数字 1~9999）',
+            trigger: 'blur'
+          }
+        ],
+        increase: [
+          {
+            required: false,
             type: 'number',
-            message: '头像权重范围1~9999',
-            trigger: 'change'
+            min: 1,
+            max: 9999,
+            message: '请填写封禁的增长量（数字 1~9999）',
+            trigger: 'blur'
           }
         ]
       }
@@ -115,26 +105,11 @@ export default {
       this.$emit('update:initDialog', val)
     }
   },
-  created () {
-    this.initCondition()
-  },
   methods: {
-    initCondition () {
-      getBlockconf().then(res => {
-        if (res.code === 200) {
-          this.avatarLevels = res.data
-        } else {
-          utils.message.call(this, res.msg, 'error')
-        }
-      })
-    },
     // 初始化表单
     initForm () {
       // 初始化表单数据和表单校验结果 （这个resetFields方法有点搞笑，它记录了第一次的非空赋值，所以，还是老老实实的自己把数据置空吧~）
       this.$refs.forms.resetFields()
-      this.uploadArr.forEach(item => {
-        this.$refs[item].initUpload()
-      })
     },
     // 填充表单
     fillUpdate () {
@@ -142,19 +117,7 @@ export default {
       const keys = Object.keys(this.dialogKind.rowData)
       keys.forEach(key => {
         const { [key]: data } = this.dialogKind.rowData
-        // 如果是日期时间格式，赋值转换为日期时间格式
-        if (this.timeArr.indexOf(key) > -1) {
-          this.form[key] = formatDate(new Date(data))
-          // 如果是非日期时间格式，按正常传递赋值
-        } else if (key === 'avatarLevel') {
-          this.form.avatarLevelId = data.id
-        } else {
-          this.form[key] = data
-        }
-        // 填充上传图片组件的数据
-        if (this.uploadArr.indexOf(key) > -1) {
-          this.$refs[key].fillUpload(data)
-        }
+        this.form[key] = data
       })
     },
     // 初始化dialog
@@ -171,7 +134,7 @@ export default {
     submitAdd () {
       const form = Object.assign({}, this.form)
       addBlockconf(form).then(res => {
-        if (res.code === 200) {
+        if (res.code === 20000) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')
           this.formVisible = false
           this.$emit('handleRefresh')
@@ -183,9 +146,9 @@ export default {
     // 更新提交
     submitUpdate () {
       const form = Object.assign({}, this.form)
-      updateBlockconf(form, form.id).then(res => {
-        if (res.code === 200) {
-          utils.message.call(this, '更新成功啦~ O(∩_∩)O', 'success')
+      updateBlockconf(form.id, form).then(res => {
+        if (res.code === 20000) {
+          utils.message.call(this, '更新成功', 'success')
           this.formVisible = false
           this.$emit('handleRefresh')
         } else {
