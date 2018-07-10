@@ -1,4 +1,4 @@
-# vue-kantai
+# vue-admin-fe
 
 > A Vue.js project
 

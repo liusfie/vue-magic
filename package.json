@@ -1,8 +1,8 @@
 {
-  "name": "vue-kantai",
+  "name": "vue-admin-fe",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "liusfie <327387641@qq.com>",
+  "author": "zyfan <fanzhenyuan@corp.rrzcp8.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
