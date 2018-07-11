@@ -13,8 +13,8 @@
       <el-form-item label="增长量：" prop="increase">
         <el-input v-model.number="form.increase" placeholder="请输入触发封禁的增长量"/>
       </el-form-item>
-      <el-form-item label="是否激活：" prop="invalid">
-        <el-switch v-model.number="form.valid"/>
+      <el-form-item label="是否激活：" prop="valid">
+        <el-switch v-model.lazy="form.valid"/>
       </el-form-item>
       <el-form-item label="备注：" prop="remarks">
         <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>
@@ -54,7 +54,8 @@ export default {
         server_name: '',
         threshold: '',
         increase: '',
-        valid: '',
+        // switch组件手动开启后，新增数据默认valid为空，所以加了个默认值为true
+        valid: true,
         remarks: ''
       },
       // products: [],
@@ -133,6 +134,7 @@ export default {
     // 新增提交
     submitAdd () {
       const form = Object.assign({}, this.form)
+      console.log(form)
       addBlockconf(form).then(res => {
         if (res.code === 20000) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')

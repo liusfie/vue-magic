@@ -22,7 +22,13 @@ export default {
   /*text-align: center;*/
   color: #2c3e50;
 }
+.el-main {
+  padding: 0;
+}
   .el-header {
     padding: 0;
+  }
+  .el-form-item {
+    margin: 11px;
   }
 </style>

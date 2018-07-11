@@ -4,11 +4,11 @@
       <el-row>
         <el-col>
           <el-form :inline="true" :model="queryForm">
-            <el-form-item label="域名">
-              <el-input v-model.trim="queryForm.server_name"></el-input>
+            <el-form-item label="">
+              <el-input placeholder="检索域名" v-model.trim="queryForm.server_name" @keyup.enter.native="fetchQuery"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="fetchQuery">查询</el-button>
+              <el-button type="primary" @click="fetchQuery">SEARCH</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -38,11 +38,11 @@
         </el-col>
       </el-row>
       <el-row type="flex" justify="space-between">
-        <el-col :span="12">
+        <el-col :span="10">
           <el-button type="primary" class="insert" @click="showAddDialog">新增</el-button>
         </el-col>
-        <el-col :span="12">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[4,8,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
+        <el-col :span="14">
+          <el-pagination class="insert" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
           <add-update-dialog @handleRefresh="handlePage" :dialogKind="dialogKind" :initDialog.sync="initDialog"/>
         </el-col>
       </el-row>
@@ -111,7 +111,7 @@ export default {
     initTable () {
       const initQuery = {
         pageNum: 1,
-        pageSize: 4
+        pageSize: 10
       }
       this.fetchAPI(initQuery)
     },
@@ -122,6 +122,9 @@ export default {
         this.loading = false
         if (res.code === 20000) {
           this.tableData.list = res.data
+          this.tableData.total = res.total
+          this.tableData.pageNum = res.pageNum
+          this.tableData.pageSize = res.pageSize
         } else {
           utils.message.call(this, res.msg, 'error')
         }
@@ -216,7 +219,6 @@ export default {
   .table-config {
     .insert {
       margin-top: 10px;
-      float:left
     }
   }
 </style>
