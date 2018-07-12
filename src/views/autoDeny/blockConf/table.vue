@@ -130,7 +130,7 @@ export default {
         }
       })
     },
-    // 查询奖品（每次都从当前页开始）
+    // 查询（每次都从当前页开始）
     handlePage () {
       // 查询条件
       const pageForm = {
@@ -170,7 +170,7 @@ export default {
     },
     // 当前页的改变
     handleCurrentChange () {
-      // 查询奖品种类
+      // 查询种类
       this.handlePage()
     },
     // 触发dialog

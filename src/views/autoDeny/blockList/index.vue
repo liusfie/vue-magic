@@ -3,7 +3,7 @@
     <el-col :span="22">
       <el-row>
         <el-col>
-          <h3>封禁列表</h3>
+          <h3>封禁列表</h3><hr>
         </el-col>
       </el-row>
       <el-row>
@@ -18,11 +18,10 @@
 <script>
 import blockListTable from './table'
 
-export default {
-  components: {
-    // 封禁配置表格组件
-    blockListTable
-  }
+export default { components: {
+  // 封禁列表表格组件
+  blockListTable
+}
 }
 </script>
 

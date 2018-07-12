@@ -4,25 +4,20 @@
       <el-row>
         <el-col>
           <el-form :inline="true" :model="queryForm">
-            <el-form-item label="域名">
-              <el-input v-model.trim="queryForm.server_name"></el-input>
+            <el-form-item label="">
+              <el-input placeholder="检索封禁IP" v-model.trim="queryForm.denyip" @keyup.enter.native="fetchQuery"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="fetchQuery">查询</el-button>
+              <el-button type="primary" @click="fetchQuery">SEARCH</el-button>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col>
           <el-table :data="tableData.list" stripe border v-loading="loading">
-            <el-table-column align="center" prop="name" label="名称/"/>
+            <el-table-column align="center" prop="denyip" label="封禁IP"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
-            <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
-            <el-table-column align="center" prop="increase" width="80" label="增长量"/>
-               <el-table-column align="center" label="启用" width="80">
-                 <template slot-scope="scope">
-                   <el-switch v-model=scope.row.valid active-color="#13ce66" inactive-color="#808080" @change="changeSwitch(scope.row.id,scope.row.valid)"/>
-                 </template>
-               </el-table-column>
+            <el-table-column align="center" prop="begintime" label="开始时间"/>
+            <el-table-column align="center" prop="endtime" label="结束时间"/>
             <el-table-column align="center" prop="remarks" label="备注"/>
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
@@ -38,11 +33,11 @@
         </el-col>
       </el-row>
       <el-row type="flex" justify="space-between">
-        <el-col :span="12">
+        <el-col :span="10">
           <el-button type="primary" class="insert" @click="showAddDialog">新增</el-button>
         </el-col>
-        <el-col :span="12">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[4,8,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
+        <el-col :span="14">
+          <el-pagination class="insert" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
           <add-update-dialog @handleRefresh="handlePage" :dialogKind="dialogKind" :initDialog.sync="initDialog"/>
         </el-col>
       </el-row>
@@ -52,7 +47,7 @@
 
 <script>
 import utils from '@/utils/utils'
-import { getBlockconf, deleteBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
+import { getBlocklist, deleteBlocklist } from '@/api/autoDeny/blockListAPI'
 import addUpdateDialog from './dialog'
 
 export default {
@@ -64,7 +59,7 @@ export default {
     return {
       // 查询表单
       queryForm: {
-        server_name: '',
+        denyip: '',
         pageSize: 10,
         pageNum: 1
       },
@@ -93,41 +88,30 @@ export default {
     this.initTable()
   },
   methods: {
-    // 配置启用的开关
-    changeSwitch (rowid, rowvalid) {
-      const data = {}
-      data.valid = rowvalid
-      updateBlockconf(rowid, data).then(res => {
-        if (res.code === 20000) {
-          utils.message.call(this, res.msg, 'success')
-        } else {
-          utils.message.call(this, res.msg, 'error')
-          // 刷新页面
-          this.initTable()
-        }
-      })
-    },
     // 初始化表格数据
     initTable () {
       const initQuery = {
         pageNum: 1,
-        pageSize: 4
+        pageSize: 10
       }
       this.fetchAPI(initQuery)
     },
     // 请求api
     fetchAPI (params) {
       this.loading = true
-      getBlockconf(params).then(res => {
+      getBlocklist(params).then(res => {
         this.loading = false
         if (res.code === 20000) {
           this.tableData.list = res.data
+          this.tableData.total = res.total
+          this.tableData.pageNum = res.pageNum
+          this.tableData.pageSize = res.pageSize
         } else {
           utils.message.call(this, res.msg, 'error')
         }
       })
     },
-    // 查询奖品（每次都从当前页开始）
+    // 查询（每次都从当前页开始）
     handlePage () {
       // 查询条件
       const pageForm = {
@@ -180,6 +164,7 @@ export default {
     },
     // 触发修改dialog
     updateDialog (rowData) {
+      console.log(rowData)
       // 暂时解决日期时间组件的弹出层不跟随dialog
       document.body.scrollTop = 0
       this.dialogKind.title = 'update'
@@ -194,7 +179,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteBlockconf(rowData.id).then(res => {
+          deleteBlocklist(rowData.id).then(res => {
             if (res.code === 20000) {
               utils.message.call(this, res.msg, 'success')
               // 刷新页面
@@ -216,7 +201,6 @@ export default {
   .table-config {
     .insert {
       margin-top: 10px;
-      float:left
     }
   }
 </style>
