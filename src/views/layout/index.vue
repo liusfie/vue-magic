@@ -27,6 +27,7 @@ export default {
     height: 100%;
   }
   .el-aside{
-    background-color:#FFFAFA
+    background-color:#F7FCFC;
+    border-right: solid 1px #e6e6e6;
   }
 </style>

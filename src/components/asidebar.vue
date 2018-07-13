@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" background-color="#E4E7ED" text-color="#000000" active-text-color="#FF0000" router>
+  <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" background-color="#F7FCFC" text-color="#000000" active-text-color="#FF0000" router>
     <template v-for="data in asideList">
       <el-menu-item :index="data.index" :key="data.index">
         {{data.title}}
@@ -48,4 +48,7 @@ export default {
 </script>
 
 <style scoped>
+  .el-menu {
+    border-right: 0px;
+  }
 </style>
