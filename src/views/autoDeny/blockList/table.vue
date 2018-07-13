@@ -168,7 +168,6 @@ export default {
     },
     // 触发修改dialog
     updateDialog (rowData) {
-      console.log(rowData)
       // 暂时解决日期时间组件的弹出层不跟随dialog
       document.body.scrollTop = 0
       this.dialogKind.title = 'update'

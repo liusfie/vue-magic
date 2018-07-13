@@ -4,7 +4,7 @@
         <header-bar/>
       </el-header>
       <el-container>
-        <el-aside style="background-color:#FFFAFA" ><aside-bar/></el-aside>
+        <el-aside><aside-bar/></el-aside>
       <el-main>
         <router-view/>
       </el-main>
@@ -23,5 +23,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .el-container {
+    height: 100%;
+  }
+  .el-aside{
+    background-color:#FFFAFA
+  }
 </style>

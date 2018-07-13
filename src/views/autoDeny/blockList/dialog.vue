@@ -140,7 +140,6 @@ export default {
     // 新增提交
     submitAdd () {
       const form = Object.assign({}, this.form)
-      console.log(form)
       addBlocklist(form).then(res => {
         if (res.code === 20000) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')
