@@ -28,7 +28,4 @@ export default {
   .el-header {
     padding: 0;
   }
-  .el-form-item {
-    margin: 11px;
-  }
 </style>

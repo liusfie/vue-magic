@@ -1,14 +1,14 @@
 <template>
   <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
     <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
-      <el-form-item label="封禁IP：" prop="denyip">
-        <el-input v-model.trim="form.denyip" placeholder="请输入要封禁的ip"/>
+      <el-form-item label="封禁IP：" prop="denyip" >
+        <el-input v-model.trim="form.denyip" placeholder="请输入要封禁的ip" :disabled="ifdenyip"/>
       </el-form-item>
       <el-form-item label="域名：" prop="server_name">
-        <el-input v-model.trim="form.server_name" placeholder="请输入名称，如：api.ttacp8.com"/>
+        <el-input v-model.trim="form.server_name" placeholder="请输入名称，如：api.ttacp8.com" :disabled="ifserver_name" />
       </el-form-item>
       <el-form-item label="开始时间：" prop="begintime">
-        <el-date-picker type="datetime" v-model="form.begintime" placeholder="请输入开始时间，默认为现在" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" :editable="false"/>
+        <el-date-picker type="datetime" v-model="form.begintime" placeholder="请输入开始时间" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" :editable="false" :disabled="ifbegintime"/>
       </el-form-item>
       <el-form-item label="结束时间：" prop="endtime">
         <el-date-picker type="datetime" v-model="form.endtime" placeholder="请输入结束时间" value-format="yyyy-MM-dd HH:mm:ss" style="width:100%" :editable="false"/>
@@ -55,6 +55,9 @@ export default {
         remarks: ''
       },
       timeArr: ['begintime', 'endtime'],
+      ifdenyip: false,
+      ifserver_name: false,
+      ifbegintime: false,
       // products: [],
       // 表单规则
       rules: {
@@ -121,9 +124,17 @@ export default {
       // 初始化表单
       this.$nextTick(() => {
         // 初始化表单
+        this.ifdenyip = false
+        this.ifserver_name = false
+        this.ifbegintime = false
         this.initForm()
         // 如果是更新操作 填充表单
-        this.dialogKind.title === 'update' && this.fillUpdate()
+        if (this.dialogKind.title === 'update') {
+          this.fillUpdate()
+          this.ifdenyip = true
+          this.ifserver_name = true
+          this.ifbegintime = true
+        }
       })
     },
     // 新增提交

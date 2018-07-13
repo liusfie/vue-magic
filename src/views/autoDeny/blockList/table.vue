@@ -10,6 +10,9 @@
             <el-form-item>
               <el-button type="primary" @click="fetchQuery">SEARCH</el-button>
             </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="initTable">刷新</el-button>
+            </el-form-item>
           </el-form>
         </el-col>
         <el-col>
@@ -94,6 +97,7 @@ export default {
         pageNum: 1,
         pageSize: 10
       }
+      this.queryForm.denyip = ''
       this.fetchAPI(initQuery)
     },
     // 请求api
@@ -186,6 +190,7 @@ export default {
               this.initTable()
             } else {
               utils.message.call(this, res.msg, 'error')
+              this.initTable()
             }
           })
         })
