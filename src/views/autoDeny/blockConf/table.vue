@@ -128,7 +128,6 @@ export default {
         this.loading = false
         if (res.code === 20000) {
           this.tableData = res.data
-          console.log(res.data)
         } else {
           utils.message.call(this, res.msg, 'error')
         }
@@ -142,7 +141,6 @@ export default {
         pageNum: this.tableData.pageNum || 1,
         pageSize: this.tableData.pageSize || 10
       }
-      console.log(pageForm)
       // 请求API
       this.fetchAPI(pageForm)
     },
