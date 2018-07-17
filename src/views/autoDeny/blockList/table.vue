@@ -106,10 +106,7 @@ export default {
       getBlocklist(params).then(res => {
         this.loading = false
         if (res.code === 20000) {
-          this.tableData.list = res.data
-          this.tableData.total = res.total
-          this.tableData.pageNum = res.pageNum
-          this.tableData.pageSize = res.pageSize
+          this.tableData = res.data
         } else {
           utils.message.call(this, res.msg, 'error')
         }
