@@ -1,7 +1,8 @@
 <template>
-  <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" background-color="#F7FCFC" text-color="#000000" active-text-color="#FF0000" router>
+  <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" background-color="#FCFCFC" text-color="#000000" active-text-color="#FF0000" router>
     <template v-for="data in asideList">
       <el-menu-item :index="data.index" :key="data.index">
+        <svg-icon icon-class="example"/>
         {{data.title}}
       </el-menu-item>
     </template>
