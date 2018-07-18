@@ -61,7 +61,13 @@ export default {
       // products: [],
       // 表单规则
       rules: {
-        name: [{required: true, message: '请输入名称', trigger: 'blur'}],
+        name: [
+          {
+            required: true,
+            message: '请输入名称',
+            trigger: 'blur'
+          }
+        ],
         server_name: [
           {
             required: true,
@@ -134,7 +140,6 @@ export default {
     // 新增提交
     submitAdd () {
       const form = Object.assign({}, this.form)
-      console.log(form)
       addBlockconf(form).then(res => {
         if (res.code === 20000) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')

@@ -8,7 +8,7 @@
               <el-input placeholder="检索域名" v-model.trim="queryForm.server_name" @keyup.enter.native="fetchQuery"/>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="fetchQuery">SEARCH</el-button>
+              <el-button type="primary" @click="fetchQuery">搜索</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="initTable">刷新</el-button>
@@ -16,7 +16,7 @@
           </el-form>
         </el-col>
         <el-col>
-          <el-table :data="tableData.list" stripe border v-loading="loading">
+          <el-table :data="tableData.list" stripe border v-loading="loading" height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="name" label="名称"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
@@ -27,13 +27,13 @@
                  </template>
                </el-table-column>
             <el-table-column align="center" prop="remarks" label="备注"/>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" width="150">
               <template slot-scope="scope">
                 <el-col :span="12">
-                  <el-button type="primary" size="small" @click="updateDialog(scope.row)">修改</el-button>
+                  <el-button type="primary" icon="el-icon-edit" size="small" @click="updateDialog(scope.row)"/>
                 </el-col>
                 <el-col :span="12">
-                  <el-button type="danger" size="small" @click="deleteDialog(scope.row)">删除</el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteDialog(scope.row)"/>
                 </el-col>
               </template>
             </el-table-column>
@@ -52,16 +52,19 @@
         </el-col>
       </el-row>
     </el-col>
+    <tablepanel :panelData="panelData"/>
   </el-row>
 </template>
 
 <script>
 import utils from '@/utils/utils'
-import { getBlockconf, deleteBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
+import { getBlockconf, getBlockconfDetail, deleteBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
 import addUpdateDialog from './dialog'
+import Tablepanel from '@/components/tablepanel'
 
 export default {
   components: {
+    Tablepanel,
     // 添加、修改dialog
     addUpdateDialog
   },
@@ -91,13 +94,24 @@ export default {
       dialogKind: {
         title: '',
         rowData: {}
-      }
+      },
+      panelData: {}
     }
   },
   created () {
     this.initTable()
   },
   methods: {
+    // 显示细节信息
+    openDetails (row) {
+      getBlockconfDetail(row.id).then(res => {
+        if (res.code === 20000) {
+          this.panelData = res.data
+        } else {
+          utils.message.call(this, res.msg, 'error')
+        }
+      })
+    },
     // 配置启用的开关
     changeSwitch (rowid, rowvalid) {
       const data = {}
@@ -222,6 +236,10 @@ export default {
   .table-config {
     .insert {
       margin-top: 10px;
+      margin-bottom: 10px;
     }
+  }
+  .el-form-item {
+    margin-bottom: 10px;
   }
 </style>

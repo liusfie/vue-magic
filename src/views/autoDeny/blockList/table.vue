@@ -5,10 +5,10 @@
         <el-col>
           <el-form :inline="true" :model="queryForm">
             <el-form-item label="">
-              <el-input placeholder="检索封禁IP" v-model.trim="queryForm.denyip" @keyup.enter.native="fetchQuery"></el-input>
+              <el-input placeholder="检索封禁IP" v-model.trim="queryForm.denyip" @keyup.enter.native="fetchQuery"/>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="fetchQuery">SEARCH</el-button>
+              <el-button type="primary" @click="fetchQuery">搜索</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="initTable">刷新</el-button>
@@ -16,19 +16,19 @@
           </el-form>
         </el-col>
         <el-col>
-          <el-table :data="tableData.list" stripe border v-loading="loading">
+          <el-table :data="tableData.list" stripe border v-loading="loading" highlight-current-row>
             <el-table-column align="center" prop="denyip" label="封禁IP"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="begintime" label="开始时间"/>
             <el-table-column align="center" prop="endtime" label="结束时间"/>
             <el-table-column align="center" prop="remarks" label="备注"/>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" width="150">
               <template slot-scope="scope">
                 <el-col :span="12">
-                  <el-button type="primary" size="small" @click="updateDialog(scope.row)">修改</el-button>
+                  <el-button type="primary" icon="el-icon-edit" size="small" @click="updateDialog(scope.row)"/>
                 </el-col>
                 <el-col :span="12">
-                  <el-button type="danger" size="small" @click="deleteDialog(scope.row)">删除</el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteDialog(scope.row)"/>
                 </el-col>
               </template>
             </el-table-column>
@@ -202,6 +202,10 @@ export default {
   .table-config {
     .insert {
       margin-top: 10px;
+      margin-bottom: 10px;
     }
+  }
+  .el-form-item {
+    margin-bottom: 10px;
   }
 </style>

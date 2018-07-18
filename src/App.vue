@@ -29,4 +29,13 @@ export default {
   .el-header {
     padding: 0;
   }
+  .el-card__body {
+    padding-top: 10px;
+  }
+  .item {
+    padding-bottom: 8px;
+  }
+  .el-card {
+    padding-bottom: 10px;
+  }
 </style>

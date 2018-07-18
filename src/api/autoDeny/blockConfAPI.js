@@ -8,6 +8,13 @@ export function getBlockconf (params) {
   })
 }
 
+export function getBlockconfDetail (id) {
+  return fetch({
+    url: `/autodeny/blockconf/${id}`,
+    method: 'get'
+  })
+}
+
 export function addBlockconf (data) {
   return fetch({
     url: '/autodeny/blockconf',
