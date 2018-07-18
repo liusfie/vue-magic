@@ -38,8 +38,8 @@ export default {
       }
     }
     const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
       } else {
         callback()
       }
@@ -132,7 +132,7 @@ export default {
       position: absolute;
       left: 0;
       right: 0;
-      width: 520px;
+      width: 420px;
       padding: 35px 35px 15px 35px;
       margin: 120px auto;
     }

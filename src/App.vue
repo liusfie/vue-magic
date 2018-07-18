@@ -38,4 +38,8 @@ export default {
   .el-card {
     padding-bottom: 10px;
   }
+  .el-pagination{
+    text-align: right;
+    margin-right: 20px;
+  }
 </style>
