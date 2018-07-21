@@ -87,7 +87,7 @@ export default {
         ],
         increase: [
           {
-            required: false,
+            required: true,
             type: 'number',
             min: 1,
             max: 9999,
