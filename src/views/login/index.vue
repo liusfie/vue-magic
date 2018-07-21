@@ -70,10 +70,10 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.$router.push({ path: '/' }) // 登录成功之后重定向到首页
+          }).catch(err => {
             this.loading = false
-            this.$router.push({ path: '/' })
-          }).catch(() => {
-            this.loading = false
+            this.$message.error(err) // 登录失败提示错误
           })
         } else {
           console.log('error submit!!')

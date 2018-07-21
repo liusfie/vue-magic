@@ -9,7 +9,7 @@ import '@/icons'
 
 import App from './App'
 import router from './router'
-import store from './vuex/store'
+import store from './store'
 
 // 按需引入v-charts
 import VeLine from 'v-charts/lib/line.common' // 折线图

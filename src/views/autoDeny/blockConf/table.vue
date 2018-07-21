@@ -114,7 +114,7 @@ export default {
       const data = {}
       data.valid = rowvalid
       updateBlockconf(rowid, data).then(res => {
-        if (res.code === 201) {
+        if (res.code === 200) {
           utils.message.call(this, res.detail, 'success')
         } else {
           utils.message.call(this, res.detail, 'error')
