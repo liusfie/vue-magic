@@ -5,12 +5,12 @@
         <el-col>
           <el-form :inline="true" :model="queryForm">
             <el-form-item label="">
-              <el-input placeholder="检索" v-model.trim="queryForm.searchcont" @keyup.enter.native="fetchQuery"/>
+              <el-input placeholder="检索" v-model.trim="queryForm.searchcont" @keyup.enter.native="fetchQuery">
+                <el-button slot="append" icon="el-icon-search" @click="fetchQuery"/>
+              </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="fetchQuery">搜索</el-button>
-            </el-form-item>
-            <el-form-item>
+              <el-button type="primary" @click="showAddDialog">新增</el-button>
               <el-button type="primary" @click="initTable">刷新</el-button>
             </el-form-item>
           </el-form>
@@ -41,10 +41,7 @@
         </el-col>
       </el-row>
       <el-row type="flex" justify="space-between">
-        <el-col :span="10">
-          <el-button type="primary" class="insert" @click="showAddDialog">新增</el-button>
-        </el-col>
-        <el-col :span="14">
+        <el-col>
           <el-pagination class="insert" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                          :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]" :page-size="tableData.pageSize"
                          layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
