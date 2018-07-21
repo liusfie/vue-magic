@@ -49,9 +49,9 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.code !== 20000) {
+    if (res.code > 299) {
       Message({
-        message: res.message,
+        message: res.detail,
         type: 'error',
         duration: 5 * 1000
       })

@@ -162,7 +162,7 @@ export default {
           this.formVisible = false
           this.$emit('handleRefresh')
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },
@@ -175,7 +175,7 @@ export default {
           this.formVisible = false
           this.$emit('handleRefresh')
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },

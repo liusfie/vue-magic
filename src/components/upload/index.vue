@@ -126,7 +126,7 @@ export default {
         utils.message.call(this, '上传成功~', 'success')
         this.setImgUrl(fileList, this.imgUrl)
       } else {
-        utils.message.call(this, res.msg, 'error')
+        utils.message.call(this, res.detail, 'error')
       }
       // 把上传成功的奖品配图地址添加进form
     },

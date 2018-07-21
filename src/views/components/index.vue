@@ -253,7 +253,7 @@ export default {
                     // 刷新数据
                     this.handlePage()
                   } else {
-                    utils.message.call(this, res.msg, 'error')
+                    utils.message.call(this, res.detail, 'error')
                   }
                 })
             })
@@ -304,7 +304,7 @@ export default {
         if (res.code === 200) {
           this.tableData = res.data && res.data // 成功
         } else {
-          utils.message.call(this, res.msg, 'error') // toast提示
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },

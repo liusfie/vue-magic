@@ -141,12 +141,12 @@ export default {
     submitAdd () {
       const form = Object.assign({}, this.form)
       addBlocklist(form).then(res => {
-        if (res.code === 20000) {
+        if (res.code === 201) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')
           this.formVisible = false
           this.$emit('handleRefresh')
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },
@@ -154,12 +154,12 @@ export default {
     submitUpdate () {
       const form = Object.assign({}, this.form)
       updateBlocklist(form.id, form).then(res => {
-        if (res.code === 20000) {
+        if (res.code === 200) {
           utils.message.call(this, '更新成功', 'success')
           this.formVisible = false
           this.$emit('handleRefresh')
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },

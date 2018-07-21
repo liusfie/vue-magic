@@ -5,7 +5,7 @@
         <el-col>
           <el-form :inline="true" :model="queryForm">
             <el-form-item label="">
-              <el-input placeholder="检索域名" v-model.trim="queryForm.server_name" @keyup.enter.native="fetchQuery"/>
+              <el-input placeholder="检索" v-model.trim="queryForm.searchcont" @keyup.enter.native="fetchQuery"/>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="fetchQuery">搜索</el-button>
@@ -16,7 +16,7 @@
           </el-form>
         </el-col>
         <el-col>
-          <el-table :data="tableData.list" stripe border v-loading="loading" height="500" @row-click="openDetails" highlight-current-row>
+          <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="name" label="名称"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
@@ -72,7 +72,7 @@ export default {
     return {
       // 查询表单
       queryForm: {
-        server_name: '',
+        searchcont: '',
         pageSize: 10,
         pageNum: 1
       },
@@ -105,10 +105,10 @@ export default {
     // 显示细节信息
     openDetails (row) {
       getBlockconfDetail(row.id).then(res => {
-        if (res.code === 20000) {
+        if (res.code === 200) {
           this.panelData = res.data
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },
@@ -117,10 +117,10 @@ export default {
       const data = {}
       data.valid = rowvalid
       updateBlockconf(rowid, data).then(res => {
-        if (res.code === 20000) {
-          utils.message.call(this, res.msg, 'success')
+        if (res.code === 201) {
+          utils.message.call(this, res.detail, 'success')
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
           // 刷新页面
           this.initTable()
         }
@@ -132,7 +132,7 @@ export default {
         pageNum: 1,
         pageSize: 10
       }
-      this.queryForm.server_name = ''
+      this.queryForm.searchcont = ''
       this.fetchAPI(initQuery)
     },
     // 请求api
@@ -140,10 +140,10 @@ export default {
       this.loading = true
       getBlockconf(params).then(res => {
         this.loading = false
-        if (res.code === 20000) {
+        if (res.code === 200) {
           this.tableData = res.data
         } else {
-          utils.message.call(this, res.msg, 'error')
+          utils.message.call(this, res.detail, 'error')
         }
       })
     },
@@ -215,12 +215,12 @@ export default {
       })
         .then(() => {
           deleteBlockconf(rowData.id).then(res => {
-            if (res.code === 20000) {
-              utils.message.call(this, res.msg, 'success')
+            if (res.code === 200) {
+              utils.message.call(this, res.detail, 'success')
               // 刷新页面
               this.initTable()
             } else {
-              utils.message.call(this, res.msg, 'error')
+              utils.message.call(this, res.detail, 'error')
             }
           })
         })
