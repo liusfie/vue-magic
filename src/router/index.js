@@ -14,7 +14,7 @@ const router = new VueRouter({
     { path: '/404', component: () => import('@/views/404') },
     { path: '/login', component: () => import('@/views/login/index') },
     { path: '/logo', redirect: '/home' },
-
+    // 包含asidebar组件的view
     { path: '/',
       component: Layout,
       name: 'Layout',
@@ -24,6 +24,7 @@ const router = new VueRouter({
         ...autodeny
       ]
     },
+    // 不包含asidebar组件的view
     { path: '/',
       component: Layout2,
       name: 'Layout2',
@@ -31,8 +32,9 @@ const router = new VueRouter({
       children: [
         ...Home
       ]
-    }
-    // { path: '*', redirect: '/404' }
-  ]})
+    },
+    { path: '*', redirect: '/404' }
+  ]
+})
 
 export default router

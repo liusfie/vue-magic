@@ -18,6 +18,18 @@
       </el-submenu>
       <el-menu-item :index="data.index" :key="data.index" v-else>{{data.title}}</el-menu-item>
     </template>
+    <div align="right">
+      <el-dropdown>
+      <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" height="45" style="padding-right: 40px ;padding-top: 8px"/>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item disabled>昵称</el-dropdown-item>
+          <router-link to="/">
+            <el-dropdown-item>用户信息</el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided><span @click="logout">LogOut</span></el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </el-menu>
 </template>
 
@@ -41,10 +53,18 @@ export default {
         this.menuList = response.data.menuList
         this.loading = false
       })
+    },
+    logout () {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+  a:link {
+    text-decoration: none;
+  }
 </style>
