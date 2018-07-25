@@ -52,6 +52,7 @@ export default {
         server_name: '',
         begintime: '',
         endtime: '',
+        valid: '1',
         remarks: ''
       },
       timeArr: ['begintime', 'endtime'],
