@@ -5,7 +5,7 @@ import Layout from '@/views/layout/index'
 import Layout2 from '@/views/layout2/index'
 import Home from '@/router/home/index'
 import dashboad from '@/router/dashboad/index'
-import autodeny from '@/router/autodeny/index'
+import autodeny from '@/router/autoDeny/index'
 
 Vue.use(VueRouter)
 
