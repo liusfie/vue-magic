@@ -16,6 +16,9 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
+
+# install and build for production with minification
+npm run release
 ```
 ## 版本
 npm 5.6.0

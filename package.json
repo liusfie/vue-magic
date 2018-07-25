@@ -2,14 +2,14 @@
   "name": "vue-admin-fe",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "zyfan <fanzhenyuan@corp.rrzcp8.com>",
+  "author": "sre <sre@corp.rrzcp8.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "release": "npm run install && node build/build.js"
+    "release": "npm install && node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
