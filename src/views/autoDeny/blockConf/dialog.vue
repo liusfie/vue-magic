@@ -5,7 +5,7 @@
         <el-input v-model.trim="form.name" placeholder="请输入名称"/>
       </el-form-item>
       <el-form-item label="域名：" prop="server_name">
-        <el-input v-model.trim="form.server_name" placeholder="请输入名称，如：api.ttacp8.com"/>
+        <el-input v-model.trim="form.server_name" placeholder="请输入域名，如：api.ttacp8.com"/>
       </el-form-item>
       <el-form-item label="阈值：" prop="threshold">
         <el-input v-model.number="form.threshold" placeholder="请输入触发封禁的阈值"/>
@@ -29,6 +29,7 @@
 <script>
 import utils from '@/utils/utils'
 import { addBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
+import { isvalidDomainName } from '@/utils/validate'
 
 export default {
   props: {
@@ -45,6 +46,13 @@ export default {
     }
   },
   data: function () {
+    const validDomainName = (rule, value, callback) => {
+      if (!isvalidDomainName(value)) {
+        callback(new Error('请输入正确的域名'))
+      } else {
+        callback()
+      }
+    }
     return {
       // dialog开关
       formVisible: false,
@@ -71,8 +79,8 @@ export default {
         server_name: [
           {
             required: true,
-            message: '请输入要封禁的域名',
-            trigger: 'blur'
+            trigger: 'blur',
+            validator: validDomainName
           }
         ],
         threshold: [

@@ -27,6 +27,7 @@
 import utils from '@/utils/utils'
 import { addBlocklist, updateBlocklist } from '@/api/autoDeny/blockListAPI'
 import { formatDate } from '@/filters/format'
+import { isvalidIp, isvalidDomainName } from '@/utils/validate'
 
 export default {
   props: {
@@ -43,6 +44,20 @@ export default {
     }
   },
   data: function () {
+    const validIp = (rule, value, callback) => {
+      if (!isvalidIp(value)) {
+        callback(new Error('请输入要封禁的合法ip'))
+      } else {
+        callback()
+      }
+    }
+    const validDomainName = (rule, value, callback) => {
+      if (!isvalidDomainName(value)) {
+        callback(new Error('请输入正确的域名'))
+      } else {
+        callback()
+      }
+    }
     return {
       // dialog开关
       formVisible: false,
@@ -62,12 +77,12 @@ export default {
       // products: [],
       // 表单规则
       rules: {
-        denyip: [{required: true, message: '请输入要封禁的ip', trigger: 'blur'}],
+        denyip: [{required: true, trigger: 'blur', validator: validIp}],
         server_name: [
           {
             required: true,
-            message: '请输入要封禁的域名',
-            trigger: 'blur'
+            trigger: 'blur',
+            validator: validDomainName
           }
         ],
         begintime: [
