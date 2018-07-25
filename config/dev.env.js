@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BASE_API: '"http://192.168.32.136"',
+  BASE_API: '"http://magicdev.ms.vvcvv.net"',
 })
