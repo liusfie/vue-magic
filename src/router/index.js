@@ -14,6 +14,9 @@ const router = new VueRouter({
     { path: '/404', component: () => import('@/views/404') },
     { path: '/login', component: () => import('@/views/login/index') },
     { path: '/logo', redirect: '/home' },
+    { path: '/sysview', redirect: '/home' },
+    { path: '/opstool', redirect: '/home' },
+    { path: '/other', redirect: '/home' },
     // 包含asidebar组件的view
     { path: '/',
       component: Layout,
@@ -32,8 +35,8 @@ const router = new VueRouter({
       children: [
         ...Home
       ]
-    },
-    { path: '*', redirect: '/404' }
+    }
+    // { path: '*', redirect: '/404' }
   ]
 })
 

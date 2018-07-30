@@ -26,7 +26,7 @@ export default {
     getasideList () {
       this.loading = true
       getList(this.listQuery).then(response => {
-        this.menuList = response.data.menuList
+        this.menuList = response.data
         this.theroute = '/' + this.$route.path.split('/', 2)[1]
         for (var i = 0, len = this.menuList.length; i < len; i++) {
           if (this.menuList[i].item === undefined) continue

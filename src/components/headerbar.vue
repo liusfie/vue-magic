@@ -48,7 +48,7 @@ export default {
     getMenuList () {
       this.loading = true
       getList(this.listQuery).then(response => {
-        this.menuList = response.data.menuList
+        this.menuList = response.data
         this.loading = false
       })
     },
