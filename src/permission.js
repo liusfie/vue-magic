@@ -15,12 +15,15 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
+    } else if (/\/error\/[0-9]+/.test(to.path)) {
+      console.log(to.path)
+      next()
     } else {
       if (store.getters.username.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
           next()
         }).catch((err) => {
-          store.dispatch('FedLogOut').then(() => {
+          store.dispatch('LogOut').then(() => {
             Message.error(err || 'Verification failed, please login again')
             next({ path: '/' })
           })

@@ -3,6 +3,7 @@ import Qs from 'qs'
 import store from '@/store'
 // import { getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+import router from '@/router'
 
 // 创建axios实例
 const service = axios.create({
@@ -64,9 +65,8 @@ service.interceptors.response.use(
           type: 'warning',
           duration: 5 * 1000
         })
-        store.dispatch('FedLogOut').then(() => {
-          location.href = '/#/login'
-          location.reload()
+        store.dispatch('LogOut').then(() => {
+          router.push({path: '/login'})
         })
         return false
       }
@@ -76,7 +76,37 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error)// for debug
+    // console.log('err:' + error)
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 跳转到登录页面
+          router.push({
+            path: '/login'
+          })
+          break
+        case 500:
+          router.push({
+            path: '/error/500'
+          })
+          break
+        case 502:
+          router.push({
+            path: '/error/502'
+          })
+          break
+        case 404:
+          router.push({
+            path: '/error/404'
+          })
+          break
+        case 504:
+          router.push({
+            path: '/error/504'
+          })
+          break
+      }
+    }
     Message({
       message: error.message,
       type: 'error',

@@ -11,7 +11,10 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
-    { path: '/404', component: () => import('@/views/404') },
+    { path: '/error/404', component: () => import('@/views/errorPage/404') },
+    { path: '/error/500', component: () => import('@/views/errorPage/500') },
+    { path: '/error/502', component: () => import('@/views/errorPage/502') },
+    { path: '/error/504', component: () => import('@/views/errorPage/504') },
     { path: '/login', component: () => import('@/views/login/index') },
     { path: '/logo', redirect: '/home' },
     { path: '/sysview', redirect: '/home' },
