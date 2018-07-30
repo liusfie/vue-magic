@@ -21,7 +21,7 @@
       <el-dropdown style="float: right">
       <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" height="45" style="padding-right: 30px ;padding-top: 8px"/>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item disabled>昵称</el-dropdown-item>
+          <el-dropdown-item disabled>昵称：{{ $store.getters.username }}</el-dropdown-item>
           <router-link to="/">
             <el-dropdown-item>用户信息</el-dropdown-item>
           </router-link>
