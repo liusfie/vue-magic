@@ -18,16 +18,18 @@
       </el-submenu>
       <el-menu-item :index="data.index" :key="data.index" v-else>{{data.title}}</el-menu-item>
     </template>
-      <el-dropdown style="float: right">
-      <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" height="45" style="padding-right: 30px ;padding-top: 8px"/>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item disabled>昵称：{{ $store.getters.username }}</el-dropdown-item>
-          <router-link to="/">
-            <el-dropdown-item>用户信息</el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided><span @click="logout">LogOut</span></el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+    <el-button @click="logout" type="text" style="float: right;padding-right: 18px;font-size: 16px;color: #eeeeee;margin-top: 7px">注销</el-button>
+    <p>欢迎，<strong>{{ $store.getters.username }}</strong></p>
+    <!--<el-dropdown style="float: right">-->
+      <!--<img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" height="45" style="padding-right: 30px;padding-top: 8px"/>-->
+      <!--<el-dropdown-menu slot="dropdown">-->
+        <!--<el-dropdown-item disabled>昵称：{{ $store.getters.username }}</el-dropdown-item>-->
+        <!--<router-link to="/">-->
+          <!--<el-dropdown-item>用户信息</el-dropdown-item>-->
+        <!--</router-link>-->
+        <!--<el-dropdown-item divided><span @click="logout">LogOut</span></el-dropdown-item>-->
+      <!--</el-dropdown-menu>-->
+    <!--</el-dropdown>-->
   </el-menu>
 </template>
 
@@ -65,5 +67,9 @@ export default {
   a:link {
     text-decoration: none;
   }
-
+  p {
+    float: right;
+    color: #eeeeee;
+    padding-right: 15px
+  }
 </style>

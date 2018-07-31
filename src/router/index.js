@@ -6,6 +6,7 @@ import Layout2 from '@/views/layout2/index'
 import Home from '@/router/home/index'
 import dashboad from '@/router/dashboad/index'
 import autodeny from '@/router/autoDeny/index'
+import platform from '@/router/platform/index'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,7 @@ const router = new VueRouter({
     { path: '/logo', redirect: '/home' },
     { path: '/sysview', redirect: '/home' },
     { path: '/opstool', redirect: '/home' },
-    { path: '/other', redirect: '/home' },
+    { path: '/confManage', redirect: '/home' },
     // 包含asidebar组件的view
     { path: '/',
       component: Layout,
@@ -25,7 +26,8 @@ const router = new VueRouter({
       redirect: '/home',
       children: [
         ...dashboad,
-        ...autodeny
+        ...autodeny,
+        ...platform
       ]
     },
     // 不包含asidebar组件的view

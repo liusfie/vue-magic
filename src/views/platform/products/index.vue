@@ -3,12 +3,12 @@
     <el-col :span="22">
       <el-row>
         <el-col>
-          <h3>封禁列表</h3><hr>
+          <h3>产品管理</h3><hr>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <block-list-table/>
+          <block-conf-table/>
         </el-col>
       </el-row>
     </el-col>
@@ -16,12 +16,11 @@
 </template>
 
 <script>
-import blockListTable from './table'
+import blockConfTable from './table'
 
 export default {
   components: {
-    // 封禁列表表格组件
-    blockListTable
+    blockConfTable
   }
 }
 </script>

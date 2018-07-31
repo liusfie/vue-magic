@@ -144,12 +144,12 @@ export default {
     handleSizeChange (val) {
       // 处理每页大小改变的蝴蝶效应
       this.changedPageSize(val)
-      // 查询奖品种类
+      // 查询种类
       this.handlePage()
     },
     // 当前页的改变
     handleCurrentChange () {
-      // 查询奖品种类
+      // 查询种类
       this.handlePage()
     },
     // 触发dialog

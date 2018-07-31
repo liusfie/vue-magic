@@ -18,10 +18,11 @@
 <script>
 import blockConfTable from './table'
 
-export default { components: {
-  // 封禁配置表格组件
-  blockConfTable
-}
+export default {
+  components: {
+    // 封禁配置表格组件
+    blockConfTable
+  }
 }
 </script>
 
