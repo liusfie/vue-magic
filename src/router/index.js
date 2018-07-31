@@ -12,9 +12,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
     { path: '/error/404', component: () => import('@/views/errorPage/404') },
-    { path: '/error/500', component: () => import('@/views/errorPage/500') },
-    { path: '/error/502', component: () => import('@/views/errorPage/502') },
-    { path: '/error/504', component: () => import('@/views/errorPage/504') },
+    { path: '/error/50x', component: () => import('@/views/errorPage/50x') },
     { path: '/login', component: () => import('@/views/login/index') },
     { path: '/logo', redirect: '/home' },
     { path: '/sysview', redirect: '/home' },
@@ -38,8 +36,8 @@ const router = new VueRouter({
       children: [
         ...Home
       ]
-    }
-    // { path: '*', redirect: '/404' }
+    },
+    { path: '*', redirect: '/error/404' }
   ]
 })
 

@@ -16,7 +16,6 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else if (/\/error\/[0-9]+/.test(to.path)) {
-      console.log(to.path)
       next()
     } else {
       if (store.getters.username.length === 0) { // 判断当前用户是否已拉取完user_info信息

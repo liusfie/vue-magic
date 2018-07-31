@@ -85,27 +85,18 @@ service.interceptors.response.use(
             path: '/login'
           })
           break
-        case 500:
-          router.push({
-            path: '/error/500'
-          })
-          break
-        case 502:
-          router.push({
-            path: '/error/502'
-          })
-          break
         case 404:
           router.push({
             path: '/error/404'
           })
           break
-        case 504:
+        case 500:case 502:case 504:
           router.push({
-            path: '/error/504'
+            path: '/error/50x'
           })
           break
       }
+      return Promise.reject(error)
     }
     Message({
       message: error.message,
