@@ -16,7 +16,7 @@
           </el-form>
         </el-col>
         <el-col>
-          <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" highlight-current-row>
+          <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="denyip" label="封禁IP"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="begintime" label="开始时间"/>
@@ -42,16 +42,19 @@
         </el-col>
       </el-row>
     </el-col>
+    <tablepanel :panelData="panelData"/>
   </el-row>
 </template>
 
 <script>
 import utils from '@/utils/utils'
-import { getBlocklist, deleteBlocklist } from '@/api/autoDeny/blockListAPI'
+import { getBlocklist, deleteBlocklist, getBlocklistDetail } from '@/api/autoDeny/blockListAPI'
 import addUpdateDialog from './dialog'
+import Tablepanel from '@/components/tablepanel'
 
 export default {
   components: {
+    Tablepanel,
     // 添加、修改dialog
     addUpdateDialog
   },
@@ -81,13 +84,24 @@ export default {
       dialogKind: {
         title: '',
         rowData: {}
-      }
+      },
+      panelData: {}
     }
   },
   created () {
     this.initTable()
   },
   methods: {
+    // 显示细节信息
+    openDetails (row) {
+      getBlocklistDetail(row.id).then(res => {
+        if (res.code === 200) {
+          this.panelData = res.data
+        } else {
+          utils.message.call(this, res.detail, 'error')
+        }
+      })
+    },
     // 初始化表格数据
     initTable () {
       const initQuery = {

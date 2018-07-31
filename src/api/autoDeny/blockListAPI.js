@@ -8,6 +8,13 @@ export function getBlocklist (params) {
   })
 }
 
+export function getBlocklistDetail (id) {
+  return fetch({
+    url: `/autodeny/blocklist/${id}`,
+    method: 'get'
+  })
+}
+
 export function addBlocklist (data) {
   return fetch({
     url: '/autodeny/blocklist',
