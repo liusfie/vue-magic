@@ -1,7 +1,7 @@
 import utils from '@/utils/utils'
 export default [
   {
-    path: '/platfrom',
+    path: '/platform',
     component: utils.asyncComponent('platform/index'),
     redirect: '/home',
     children: [
