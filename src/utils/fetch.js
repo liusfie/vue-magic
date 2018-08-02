@@ -1,14 +1,13 @@
 import axios from 'axios'
 import Qs from 'qs'
 import store from '@/store'
-// import { getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 import router from '@/router'
 
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API,
-  timeout: 5000, // 请求超时时间
+  timeout: 30000, // 请求超时时间
   headers: {},
   // url参数形式 数组a=''&a='' 对象形式a.b.c='' 过滤掉字符串为空、null、undefined的字段
   paramsSerializer: function (params) {

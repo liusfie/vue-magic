@@ -7,6 +7,7 @@ import Home from '@/router/home/index'
 import dashboad from '@/router/dashboad/index'
 import autodeny from '@/router/autoDeny/index'
 import platform from '@/router/platform/index'
+import yixin from '@/router/yixin/index'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,8 @@ const router = new VueRouter({
       children: [
         ...dashboad,
         ...autodeny,
-        ...platform
+        ...platform,
+        ...yixin
       ]
     },
     // 不包含asidebar组件的view

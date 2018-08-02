@@ -2,7 +2,7 @@
   <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
     <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
       <el-form-item label="产品名称：" prop="product">
-        <el-input v-model.trim="form.product" placeholder="请输入产品名称"/>
+        <el-input v-model.trim="form.product" placeholder="请输入产品名称" />
       </el-form-item>
       <el-form-item label="英文名称：" prop="ename">
         <el-input v-model.trim="form.ename" placeholder="请输入此产品的英文名称"/>
