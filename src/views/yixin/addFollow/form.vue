@@ -77,7 +77,6 @@ export default {
       const form = Object.assign({}, this.form)
       addFollow(form).then(res => {
         this.loading = false
-        console.log(res.detail)
         this.panelData = res.detail
       })
     },

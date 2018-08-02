@@ -20,7 +20,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" :loading="loading" @click="onSubmit">新增</el-button>
+              <el-button type="primary" :loading="loading" @click="onSubmit">删除</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -73,7 +73,6 @@ export default {
       const form = Object.assign({}, this.form)
       deleteFollow(form).then(res => {
         this.loading = false
-        console.log(res.detail)
         this.panelData = res.detail
       })
     },
