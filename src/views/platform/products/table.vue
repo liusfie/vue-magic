@@ -20,6 +20,11 @@
             <el-table-column align="center" prop="product" label="产品名称"/>
             <el-table-column align="center" prop="ename" label="英文名称"/>
             <el-table-column align="center" prop="sname" label="域名后缀"/>
+            <el-table-column align="center" label="易信号" width="80">
+              <template slot-scope="scope">
+                <el-switch v-model=scope.row.hasyixin active-color="#13ce66" inactive-color="#808080" disabled/>
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="remarks" label="备注"/>
             <el-table-column label="操作" align="center" width="150">
               <template slot-scope="scope">

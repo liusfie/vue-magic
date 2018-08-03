@@ -10,7 +10,10 @@
       <el-form-item label="域名后缀：" prop="sname">
         <el-input v-model.number="form.sname" placeholder="请输入此产品的域名后缀"/>
       </el-form-item>
-      <el-form-item label="备注：" prop="remarks">
+      <el-form-item label="是否有易信号：">
+        <el-switch v-model.lazy="form.hasyixin"/>
+      </el-form-item>
+      <el-form-item label="备注：">
         <el-input v-model.number="form.remarks" placeholder="请输入备注"/>
       </el-form-item>
     </el-form>
@@ -55,6 +58,7 @@ export default {
         product: '',
         ename: '',
         sname: '',
+        hasyixin: true,
         remarks: ''
       },
       // 表单规则

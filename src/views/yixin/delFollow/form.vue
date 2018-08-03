@@ -8,16 +8,11 @@
               <el-input v-model.number="form.phone" placeholder="请填写手机号"/>
             </el-form-item>
             <el-form-item label="产品：">
-              <el-select v-model="form.product" placeholder="产品名">
-                <el-option label="人人中" value="rrzcp8"/>
-                <el-option label="天天爱" value="ttacp8"/>
-                <el-option label="嗨玩360" value="hiwan360"/>
-                <el-option label="人人爱" value="rracp8"/>
-                <el-option label="AI足球" value="aifootball365"/>
-                <el-option label="人人红" value="rrhcp8"/>
-                <el-option label="虚拟竞猜" value="itaojin8"/>
-                <el-option label="所有" value="all"/>
-              </el-select>
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+              <div style="margin: 15px 0;"/>
+              <el-checkbox-group v-model="form.products" @change="handleCheckedCitiesChange">
+                <el-checkbox v-for="oneProduct in allProducts" :label="oneProduct" :key="oneProduct">{{ oneProduct }}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" :loading="loading" @click="onSubmit">删除</el-button>
@@ -37,6 +32,8 @@
 
 <script>
 import { deleteFollow } from '@/api/yixin/follow'
+import { getProducts } from '@/api/platform/products'
+import utils from '@/utils/utils'
 
 export default {
   data () {
@@ -44,8 +41,11 @@ export default {
       // 表单数据
       form: {
         phone: '',
-        product: ''
+        products: ['人人中彩票']
       },
+      allProducts: [],
+      checkAll: false,
+      isIndeterminate: true,
       // 按钮加载状态
       loading: false,
       panelData: [],
@@ -65,11 +65,50 @@ export default {
     }
   },
   created () {
+    this.initCheckbox()
   },
   methods: {
+    // 获取所有产品列表
+    fetchAPI (params) {
+      this.loading = true
+      getProducts(params).then(res => {
+        this.loading = false
+        if (res.code === 200) {
+          var list = []
+          res.data.list.forEach(function (value) {
+            if (value.hasyixin === true) {
+              list.push(value.product)
+            }
+          })
+          this.allProducts = list
+        } else {
+          utils.message.call(this, res.detail, 'error')
+        }
+      })
+    },
+    // 初始化复选框数据
+    initCheckbox () {
+      const initQuery = {
+        pageNum: 1,
+        pageSize: 10000
+      }
+      this.fetchAPI(initQuery)
+    },
+    // 全选
+    handleCheckAllChange (val) {
+      this.form.products = val ? this.allProducts : []
+      this.isIndeterminate = false
+    },
+    // 复选框
+    handleCheckedCitiesChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.allProducts.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.allProducts.length
+    },
     // 提交
     submitAdd () {
       this.loading = true
+      this.form.products = JSON.stringify(this.form.products)
       const form = Object.assign({}, this.form)
       deleteFollow(form).then(res => {
         this.loading = false
