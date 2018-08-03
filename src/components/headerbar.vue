@@ -1,7 +1,7 @@
 <template>
   <el-menu :default-active="$route.path" v-loading="loading" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
     <el-menu-item index="/logo">
-      <img src="../assets/logo.svg" height="56">
+      <img src="../assets/logo.png" height="56">
     </el-menu-item>
     <template v-for="data in menuList">
       <el-submenu :index="data.index" :key="data.index" :show-timeout=0 :hide-timeout=0 v-if="typeof data.item !== 'undefined'">
