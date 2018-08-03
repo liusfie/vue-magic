@@ -8,6 +8,10 @@ export default [
       {
         path: 'products',
         component: utils.asyncComponent('platform/products/index')
+      },
+      {
+        path: 'nginxinfo',
+        component: utils.asyncComponent('platform/nginxInfo/index')
       }
     ]
   }

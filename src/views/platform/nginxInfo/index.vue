@@ -3,12 +3,12 @@
     <el-col :span="22">
       <el-row>
         <el-col>
-          <h3>新增关注权限</h3><hr>
+          <h3>NGINX管理</h3><hr>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <add-follow-form/>
+          <nginx-info-table/>
         </el-col>
       </el-row>
     </el-col>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import addFollowForm from './form'
+import nginxInfoTable from './table'
 
 export default {
   components: {
-    addFollowForm
+    nginxInfoTable
   }
 }
 </script>

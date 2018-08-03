@@ -1,5 +1,5 @@
 <template>
-  <el-row type="flex" justify="center" class="game-rules-config">
+  <el-row type="flex" justify="center">
     <el-col :span="22">
       <el-row>
         <el-col>

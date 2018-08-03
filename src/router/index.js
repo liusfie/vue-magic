@@ -28,8 +28,8 @@ const router = new VueRouter({
       children: [
         ...dashboad,
         ...autodeny,
-        ...platform,
-        ...yixin
+        ...yixin,
+        ...platform
       ]
     },
     // 不包含asidebar组件的view
