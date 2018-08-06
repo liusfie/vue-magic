@@ -1,27 +1,18 @@
 import { login, logout, getInfo } from '@/api/login'
-// import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
-    // token: getToken(),
-    username: ''
-    // avatar: ''
-    // roles: []
+    username: '',
+    products: []
   },
 
   mutations: {
-    // SET_TOKEN: (state, token) => {
-    //   state.token = token
-    // },
     SET_USERNAME: (state, username) => {
       state.username = username
+    },
+    SET_PRODUCTS: (state, products) => {
+      state.products = products
     }
-    // SET_AVATAR: (state, avatar) => {
-    //   state.avatar = avatar
-    // },
-    // SET_ROLES: (state, roles) => {
-    //   state.roles = roles
-    // }
   },
 
   actions: {
@@ -45,13 +36,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const data = response.data
-          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          //   commit('SET_ROLES', data.roles)
+          // if (data.products && data.products.length > 0) { // 验证返回的roles是否是一个非空数组
+          //   commit('SET_PRODUCTS', data.products)
           // } else {
-          //   reject(new Error('getInfo: roles must be a non-null array !'))
+          //   reject(new Error('请联系管理员分配业务权限 !'))
           // }
           commit('SET_USERNAME', data.username)
-          // commit('SET_AVATAR', data.avatar)
+          commit('SET_PRODUCTS', data.products)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -64,8 +55,7 @@ const user = {
       return new Promise((resolve, reject) => {
         logout().then(() => {
           commit('SET_USERNAME', '')
-          // commit('SET_ROLES', [])
-          // removeToken()
+          commit('SET_PRODUCTS', [])
           resolve()
         }).catch(error => {
           reject(error)

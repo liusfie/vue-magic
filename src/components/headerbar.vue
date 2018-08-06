@@ -18,7 +18,15 @@
       </el-submenu>
       <el-menu-item :index="data.index" :key="data.index" v-else>{{data.title}}</el-menu-item>
     </template>
-    <el-button @click="logout" type="text" style="float: right;padding-right: 18px;font-size: 16px;color: #eeeeee;margin-top: 7px">注销</el-button>
+    <el-button @click="logout" type="text">注销</el-button>
+    <el-select v-model="productid" placeholder="请选择" @change="handlechangepro">
+      <el-option
+        v-for="item in this.$store.getters.products"
+        :key="item.id"
+        :label="item.product"
+        :value="item.id">
+      </el-option>
+    </el-select>
     <p>欢迎，<strong>{{ $store.getters.username }}</strong></p>
     <!--<el-dropdown style="float: right">-->
       <!--<img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" height="45" style="padding-right: 30px;padding-top: 8px"/>-->
@@ -39,6 +47,7 @@ export default {
   name: 'headerbar',
   data () {
     return {
+      productid: '',
       menuList: null,
       loading: false
     }
@@ -53,6 +62,9 @@ export default {
         this.menuList = response.data
         this.loading = false
       })
+    },
+    handlechangepro (value) {
+      console.log(value)
     },
     logout () {
       this.$store.dispatch('LogOut').then(() => {
@@ -71,5 +83,18 @@ export default {
     float: right;
     color: #eeeeee;
     padding-right: 15px
+  }
+  .el-select {
+    float: right;
+    padding-right: 15px;
+    width:140px ;
+    margin-top: 9px
+  }
+  .el-button {
+    float: right;
+    padding-right: 18px;
+    font-size: 16px;
+    color: #eeeeee;
+    margin-top: 7px
   }
 </style>
