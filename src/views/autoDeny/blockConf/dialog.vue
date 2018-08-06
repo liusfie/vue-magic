@@ -1,11 +1,16 @@
 <template>
-  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
+  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
       <el-form-item label="名称：" prop="name">
         <el-input v-model.trim="form.name" placeholder="请输入名称"/>
       </el-form-item>
       <el-form-item label="域名：" prop="server_name">
         <el-input v-model.trim="form.server_name" placeholder="请输入域名，如：api.ttacp8.com"/>
+      </el-form-item>
+      <el-form-item label="所属产品：" prop="product">
+        <el-select v-model="form.product" placeholder="请选择所属产品">
+          <el-option v-for="item in productoptions" :key="item" :value="item"/>
+        </el-select>
       </el-form-item>
       <el-form-item label="阈值：" prop="threshold">
         <el-input v-model.number="form.threshold" placeholder="请输入触发封禁的阈值"/>
@@ -54,19 +59,20 @@ export default {
       }
     }
     return {
+      productoptions: ['人人中彩票', '天天爱彩票', '嗨玩游戏'],
       // dialog开关
       formVisible: false,
       // 表单数据
       form: {
         name: '',
         server_name: '',
+        product: '',
         threshold: '',
         increase: '',
         // switch组件手动开启后，新增数据默认valid为空，所以加了个默认值为true
         valid: true,
         remarks: ''
       },
-      // products: [],
       // 表单规则
       rules: {
         name: [
@@ -81,6 +87,13 @@ export default {
             required: true,
             trigger: 'blur',
             validator: validDomainName
+          }
+        ],
+        product: [
+          {
+            required: true,
+            message: '请输入选择所属产品',
+            trigger: 'change'
           }
         ],
         threshold: [

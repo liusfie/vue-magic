@@ -19,6 +19,7 @@
           <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="denyip" label="封禁IP"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
+            <el-table-column align="center" prop="product" label="所属产品"/>
             <el-table-column align="center" prop="begintime" label="开始时间"/>
             <el-table-column align="center" prop="endtime" label="结束时间"/>
             <el-table-column align="center" prop="remarks" label="备注"/>

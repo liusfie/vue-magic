@@ -17,7 +17,8 @@
         </el-col>
         <el-col>
           <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
-            <el-table-column align="center" prop="ipaddr" label="IP地址"/>
+            <el-table-column align="center" prop="ipaddrlan" label="内网IP地址"/>
+            <el-table-column align="center" prop="ipaddrwan" label="外网IP地址"/>
             <el-table-column align="center" prop="product" label="所属产品"/>
             <el-table-column align="center" prop="type" label="类型"/>
             <el-table-column align="center" prop="remarks" label="备注"/>

@@ -26,12 +26,15 @@
               </template>
             </el-table-column>
             <el-table-column align="center" prop="remarks" label="备注"/>
-            <el-table-column label="操作" align="center" width="150">
+            <el-table-column label="操作" align="center" width="180">
               <template slot-scope="scope">
-                <el-col :span="12">
+                <el-col :span="8">
                   <el-button type="primary" icon="el-icon-edit" size="small" @click="updateDialog(scope.row)"/>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="8">
+                  <el-button type="success" icon="el-icon-setting" size="small" @click="userDialog(scope.row)"/>
+                </el-col>
+                <el-col :span="8">
                   <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteDialog(scope.row)"/>
                 </el-col>
               </template>
@@ -45,6 +48,7 @@
                          :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]" :page-size="tableData.pageSize"
                          layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
           <add-update-dialog @handleRefresh="handlePage" :dialogKind="dialogKind" :initDialog.sync="initDialog"/>
+          <user-dialog @handleRefresh="handlePage" :dialogKind="userdialogKind" :initUserDialog.sync="initUserDialog"/>
         </el-col>
       </el-row>
     </el-col>
@@ -56,13 +60,16 @@
 import utils from '@/utils/utils'
 import { getProducts, getProductDetail, deleteProduct } from '@/api/platform/products'
 import addUpdateDialog from './dialog'
+import userDialog from './userDialog'
 import Tablepanel from '@/components/tablepanel'
 
 export default {
   components: {
     Tablepanel,
     // 添加、修改dialog
-    addUpdateDialog
+    addUpdateDialog,
+    // 用户权限dialog
+    userDialog
   },
   data () {
     return {
@@ -86,11 +93,14 @@ export default {
       loading: false,
       // 初始化dialog
       initDialog: false,
+      initUserDialog: false,
       // dialog数据
       dialogKind: {
         title: '',
         rowData: {}
       },
+      // userdialog数据
+      userdialogKind: {},
       panelData: {}
     }
   },
@@ -174,19 +184,20 @@ export default {
     },
     // 触发dialog
     showAddDialog () {
-      // 暂时解决日期时间组件的弹出层不跟随dialog
-      document.body.scrollTop = 0
       this.dialogKind.title = 'add'
       this.dialogKind.rowData = {}
       this.initDialog = true
     },
     // 触发修改dialog
     updateDialog (rowData) {
-      // 暂时解决日期时间组件的弹出层不跟随dialog
-      document.body.scrollTop = 0
       this.dialogKind.title = 'update'
       this.dialogKind.rowData = Object.assign({}, rowData)
       this.initDialog = true
+    },
+    // 触发修改userdialog
+    userDialog (rowData) {
+      this.userdialogKind = Object.assign({}, rowData)
+      this.initUserDialog = true
     },
     // 触发删除dialog
     deleteDialog (rowData) {

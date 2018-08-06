@@ -1,20 +1,24 @@
 <template>
-  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false" class="avatars-dialog" top="2%">
+  <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
-      <el-form-item label="产品名称：" prop="product">
-        <el-input v-model.trim="form.product" placeholder="请输入产品名称" />
+      <el-form-item label="内网IP地址：" prop="ipaddrlan">
+        <el-input v-model.trim="form.ipaddrlan" placeholder="请输入nginx的内网IP地址" />
       </el-form-item>
-      <el-form-item label="英文名称：" prop="ename">
-        <el-input v-model.trim="form.ename" placeholder="请输入此产品的英文名称"/>
+      <el-form-item label="外网IP地址：" prop="ipaddrwan">
+        <el-input v-model.trim="form.ipaddrwan" placeholder="请输入nginx的外网IP地址" />
       </el-form-item>
-      <el-form-item label="域名后缀：" prop="sname">
-        <el-input v-model.number="form.sname" placeholder="请输入此产品的域名后缀"/>
+      <el-form-item label="所属产品：" prop="product">
+        <el-select v-model="form.product" placeholder="请选择所属产品">
+          <el-option v-for="item in productoptions" :key="item" :value="item"/>
+        </el-select>
       </el-form-item>
-      <el-form-item label="是否有易信号：">
-        <el-switch v-model.lazy="form.hasyixin"/>
+      <el-form-item label="类型：" prop="type">
+        <el-select v-model="form.type" placeholder="请选择类型">
+          <el-option v-for="item in typeoptions" :key="item" :value="item"/>
+        </el-select>
       </el-form-item>
       <el-form-item label="备注：">
-        <el-input v-model.number="form.remarks" placeholder="请输入备注"/>
+        <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -25,8 +29,8 @@
 
 <script>
 import utils from '@/utils/utils'
-import { addProduct, updateProduct } from '@/api/platform/products'
-import { isvalidDomainName } from '@/utils/validate'
+import { addNginxInfo, updateNginxInfo } from '@/api/platform/nginxInfo'
+import { isvalidIp } from '@/utils/validate'
 
 export default {
   props: {
@@ -43,38 +47,47 @@ export default {
     }
   },
   data: function () {
-    const validDomainName = (rule, value, callback) => {
-      if (!isvalidDomainName(value)) {
-        callback(new Error('请输入正确的域名'))
+    const validIp = (rule, value, callback) => {
+      if (!isvalidIp(value)) {
+        callback(new Error('请输入要封禁的合法ip'))
       } else {
         callback()
       }
     }
     return {
+      typeoptions: ['user', 'ms', 'inter'],
+      productoptions: ['人人中彩票', '天天爱彩票', '嗨玩游戏'],
       // dialog开关
       formVisible: false,
       // 表单数据
       form: {
+        ipaddrlan: '',
+        ipaddrwan: '',
         product: '',
-        ename: '',
-        sname: '',
-        hasyixin: true,
+        type: '',
         remarks: ''
       },
       // 表单规则
       rules: {
-        product: [
-          {
-            required: true,
-            message: '请输入名称',
-            trigger: 'blur'
-          }
-        ],
-        sname: [
+        ipaddrlan: [
           {
             required: true,
             trigger: 'blur',
-            validator: validDomainName
+            validator: validIp
+          }
+        ],
+        product: [
+          {
+            required: true,
+            message: '请输入选择所属产品',
+            trigger: 'change'
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: '请选择所属类型',
+            trigger: 'change'
           }
         ]
       }
@@ -122,7 +135,7 @@ export default {
     // 新增提交
     submitAdd () {
       const form = Object.assign({}, this.form)
-      addProduct(form).then(res => {
+      addNginxInfo(form).then(res => {
         if (res.code === 201) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')
           this.formVisible = false
@@ -135,7 +148,7 @@ export default {
     // 更新提交
     submitUpdate () {
       const form = Object.assign({}, this.form)
-      updateProduct(form.id, form).then(res => {
+      updateNginxInfo(form.id, form).then(res => {
         if (res.code === 200) {
           utils.message.call(this, '更新成功', 'success')
           this.formVisible = false

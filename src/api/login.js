@@ -18,6 +18,13 @@ export function getInfo () {
   })
 }
 
+export function getAllInfo () {
+  return fetch({
+    url: '/user/allinfo',
+    method: 'get'
+  })
+}
+
 export function logout () {
   return fetch({
     url: '/user/logout',

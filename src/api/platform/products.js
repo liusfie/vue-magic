@@ -37,3 +37,27 @@ export function deleteProduct (id) {
     method: 'delete'
   })
 }
+
+export function getUserProducts (params) {
+  return fetch({
+    url: '/platform/productusers',
+    method: 'get',
+    params: params
+  })
+}
+
+export function addUserProducts (params) {
+  return fetch({
+    url: '/platform/productusers',
+    method: 'POST',
+    params: params
+  })
+}
+
+export function deleteUserProducts (params) {
+  return fetch({
+    url: '/platform/productusers',
+    method: 'DELETE',
+    params: params
+  })
+}
