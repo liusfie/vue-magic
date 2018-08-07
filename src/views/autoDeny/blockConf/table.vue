@@ -19,7 +19,6 @@
           <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="name" label="名称"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
-            <el-table-column align="center" prop="product" label="所属产品"/>
             <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
             <el-table-column align="center" prop="increase" width="80" label="增长量"/>
             <el-table-column align="center" label="启用" width="80">
@@ -70,6 +69,7 @@ export default {
     return {
       // 查询表单
       queryForm: {
+        productid: this.productidcompu,
         searchcont: '',
         pageSize: 10,
         pageNum: 1
@@ -127,6 +127,7 @@ export default {
     // 初始化表格数据
     initTable () {
       const initQuery = {
+        productid: this.productidcompu,
         pageNum: 1,
         pageSize: 10
       }
@@ -150,6 +151,7 @@ export default {
       // 查询条件
       const pageForm = {
         ...this.queryForm,
+        productid: this.productidcompu,
         pageNum: this.tableData.pageNum || 1,
         pageSize: this.tableData.pageSize || 10
       }
@@ -225,6 +227,16 @@ export default {
         .catch(() => {
           utils.message.call(this, '已取消删除!', 'info')
         })
+    }
+  },
+  watch: {
+    productidcompu () {
+      this.initTable()
+    }
+  },
+  computed: {
+    productidcompu () {
+      return this.$store.getters.productid
     }
   }
 }

@@ -7,11 +7,6 @@
       <el-form-item label="域名：" prop="server_name">
         <el-input v-model.trim="form.server_name" placeholder="请输入域名，如：api.ttacp8.com"/>
       </el-form-item>
-      <el-form-item label="所属产品：" prop="product">
-        <el-select v-model="form.product" placeholder="请选择所属产品">
-          <el-option v-for="item in productoptions" :key="item" :value="item"/>
-        </el-select>
-      </el-form-item>
       <el-form-item label="阈值：" prop="threshold">
         <el-input v-model.number="form.threshold" placeholder="请输入触发封禁的阈值"/>
       </el-form-item>
@@ -59,14 +54,13 @@ export default {
       }
     }
     return {
-      productoptions: ['人人中彩票', '天天爱彩票', '嗨玩游戏'],
       // dialog开关
       formVisible: false,
       // 表单数据
       form: {
         name: '',
         server_name: '',
-        product: '',
+        productid: '',
         threshold: '',
         increase: '',
         // switch组件手动开启后，新增数据默认valid为空，所以加了个默认值为true
@@ -87,13 +81,6 @@ export default {
             required: true,
             trigger: 'blur',
             validator: validDomainName
-          }
-        ],
-        product: [
-          {
-            required: true,
-            message: '请输入选择所属产品',
-            trigger: 'change'
           }
         ],
         threshold: [
@@ -160,6 +147,7 @@ export default {
     },
     // 新增提交
     submitAdd () {
+      this.form.productid = this.$store.getters.productid
       const form = Object.assign({}, this.form)
       addBlockconf(form).then(res => {
         if (res.code === 201) {

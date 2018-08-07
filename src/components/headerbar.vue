@@ -47,13 +47,22 @@ export default {
   name: 'headerbar',
   data () {
     return {
-      productid: '',
+      productid: this.$store.getters.productid,
       menuList: null,
       loading: false
     }
   },
   created () {
     this.getMenuList()
+    if (this.$store.getters.products && this.$store.getters.products.length === 0) {
+      this.$notify({
+        title: '警告',
+        message: '请联系管理员添加业务权限',
+        type: 'warning',
+        position: 'bottom-right',
+        duration: 0
+      })
+    }
   },
   methods: {
     getMenuList () {
@@ -64,7 +73,7 @@ export default {
       })
     },
     handlechangepro (value) {
-      console.log(value)
+      this.$store.commit('SET_PRODUCTID', value)
     },
     logout () {
       this.$store.dispatch('LogOut').then(() => {

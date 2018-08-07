@@ -3,7 +3,8 @@ import { login, logout, getInfo } from '@/api/login'
 const user = {
   state: {
     username: '',
-    products: []
+    products: [],
+    productid: ''
   },
 
   mutations: {
@@ -12,6 +13,9 @@ const user = {
     },
     SET_PRODUCTS: (state, products) => {
       state.products = products
+    },
+    SET_PRODUCTID: (state, productid) => {
+      state.productid = productid
     }
   },
 
@@ -32,15 +36,14 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo ({ commit, state }) {
+    GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const data = response.data
-          // if (data.products && data.products.length > 0) { // 验证返回的roles是否是一个非空数组
-          //   commit('SET_PRODUCTS', data.products)
-          // } else {
-          //   reject(new Error('请联系管理员分配业务权限 !'))
-          // }
+          // 验证返回的products是否是一个非空数组
+          if (data.products && data.products.length > 0) {
+            commit('SET_PRODUCTID', data.products[0].id)
+          }
           commit('SET_USERNAME', data.username)
           commit('SET_PRODUCTS', data.products)
           resolve(response)
@@ -56,6 +59,7 @@ const user = {
         logout().then(() => {
           commit('SET_USERNAME', '')
           commit('SET_PRODUCTS', [])
+          commit('SET_PRODUCTID', '')
           resolve()
         }).catch(error => {
           reject(error)

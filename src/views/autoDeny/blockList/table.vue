@@ -19,7 +19,6 @@
           <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
             <el-table-column align="center" prop="denyip" label="封禁IP"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
-            <el-table-column align="center" prop="product" label="所属产品"/>
             <el-table-column align="center" prop="begintime" label="开始时间"/>
             <el-table-column align="center" prop="endtime" label="结束时间"/>
             <el-table-column align="center" prop="remarks" label="备注"/>
@@ -38,7 +37,10 @@
       </el-row>
       <el-row type="flex" justify="space-between">
         <el-col>
-          <el-pagination class="insert" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]" :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="tableData.total"/>
+          <el-pagination class="insert" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                         :current-page.sync="tableData.pageNum" :page-sizes="[10,20,50,100]"
+                         :page-size="tableData.pageSize" layout="total, sizes, prev, pager, next, jumper"
+                         :total="tableData.total"/>
           <add-update-dialog @handleRefresh="handlePage" :dialogKind="dialogKind" :initDialog.sync="initDialog"/>
         </el-col>
       </el-row>
@@ -63,6 +65,7 @@ export default {
     return {
       // 查询表单
       queryForm: {
+        productid: this.productidcompu,
         searchcont: '',
         pageSize: 10,
         pageNum: 1
@@ -106,6 +109,7 @@ export default {
     // 初始化表格数据
     initTable () {
       const initQuery = {
+        productid: this.productidcompu,
         pageNum: 1,
         pageSize: 10
       }
@@ -129,6 +133,7 @@ export default {
       // 查询条件
       const pageForm = {
         ...this.queryForm,
+        productid: this.productidcompu,
         pageNum: this.tableData.pageNum || 1,
         pageSize: this.tableData.pageSize || 10
       }
@@ -205,6 +210,16 @@ export default {
         .catch(() => {
           utils.message.call(this, '已取消删除!', 'info')
         })
+    }
+  },
+  watch: {
+    productidcompu () {
+      this.initTable()
+    }
+  },
+  computed: {
+    productidcompu () {
+      return this.$store.getters.productid
     }
   }
 }
