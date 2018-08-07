@@ -13,6 +13,11 @@
               <el-button type="primary" @click="showAddDialog">新增</el-button>
               <el-button type="primary" @click="initTable">刷新</el-button>
             </el-form-item>
+            <el-form-item>
+              <el-select v-model="productfilt" clearable placeholder="通过产品筛选" @change="handlechangefilter" @clear="handleclearfilter">
+                <el-option v-for="item in this.$store.getters.products" :key="item.product" :value="item.product">
+              </el-option>
+            </el-select></el-form-item>
           </el-form>
         </el-col>
         <el-col>
@@ -62,6 +67,7 @@ export default {
   },
   data () {
     return {
+      productfilt: '',
       // 查询表单
       queryForm: {
         searchcont: '',
@@ -108,7 +114,8 @@ export default {
     initTable () {
       const initQuery = {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        product: this.productfilt
       }
       this.queryForm.searchcont = ''
       this.fetchAPI(initQuery)
@@ -205,6 +212,20 @@ export default {
         .catch(() => {
           utils.message.call(this, '已取消删除!', 'info')
         })
+    },
+    handlechangefilter (val) {
+      // 查询条件
+      const pageForm = {
+        ...this.queryForm,
+        product: val,
+        pageNum: this.tableData.pageNum || 1,
+        pageSize: this.tableData.pageSize || 10
+      }
+      // 请求API
+      this.fetchAPI(pageForm)
+    },
+    handleclearfilter () {
+      this.initTable()
     }
   }
 }

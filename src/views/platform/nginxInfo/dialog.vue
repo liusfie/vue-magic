@@ -110,7 +110,7 @@ export default {
   methods: {
     // 初始化表单
     initForm () {
-      // 初始化表单数据和表单校验结果
+      // 初始化表单数据和表单校验结果（这个resetFields方法有点搞笑，它记录了第一次的非空赋值，所以，还是老老实实的自己把数据置空吧~）
       this.$refs.forms.resetFields()
     },
     // 填充表单
