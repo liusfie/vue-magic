@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item label="所属产品：" prop="product">
         <el-select v-model="form.product" placeholder="请选择所属产品">
-          <el-option v-for="item in productoptions" :key="item" :value="item"/>
+          <el-option v-for="item in this.$store.getters.products" :key="item.product" :value="item.product"/>
         </el-select>
       </el-form-item>
       <el-form-item label="类型：" prop="type">
