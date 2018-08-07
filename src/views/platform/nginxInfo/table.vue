@@ -213,6 +213,7 @@ export default {
           utils.message.call(this, '已取消删除!', 'info')
         })
     },
+    // 修改产品筛选条件
     handlechangefilter (val) {
       // 查询条件
       const pageForm = {
@@ -224,6 +225,7 @@ export default {
       // 请求API
       this.fetchAPI(pageForm)
     },
+    // 清空产品筛选条件
     handleclearfilter () {
       this.initTable()
     }
