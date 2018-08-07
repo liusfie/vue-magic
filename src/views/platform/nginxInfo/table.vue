@@ -14,7 +14,7 @@
               <el-button type="primary" @click="initTable">刷新</el-button>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="productfilt" clearable placeholder="通过产品筛选" @change="handlechangefilter" @clear="handleclearfilter">
+              <el-select v-model="queryForm.product" clearable placeholder="通过产品筛选" @change="handlechangefilter" @clear="handleclearfilter">
                 <el-option v-for="item in this.$store.getters.products" :key="item.product" :value="item.product">
               </el-option>
             </el-select></el-form-item>
@@ -67,9 +67,9 @@ export default {
   },
   data () {
     return {
-      productfilt: '',
       // 查询表单
       queryForm: {
+        product: '',
         searchcont: '',
         pageSize: 10,
         pageNum: 1
@@ -114,9 +114,9 @@ export default {
     initTable () {
       const initQuery = {
         pageNum: 1,
-        pageSize: 10,
-        product: this.productfilt
+        pageSize: 10
       }
+      initQuery.product = this.queryForm.product
       this.queryForm.searchcont = ''
       this.fetchAPI(initQuery)
     },
@@ -218,7 +218,6 @@ export default {
       // 查询条件
       const pageForm = {
         ...this.queryForm,
-        product: val,
         pageNum: this.tableData.pageNum || 1,
         pageSize: this.tableData.pageSize || 10
       }
