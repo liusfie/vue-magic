@@ -68,7 +68,6 @@ export default {
         product: '',
         begintime: '',
         endtime: '',
-        valid: '1',
         remarks: ''
       },
       timeArr: ['begintime', 'endtime'],

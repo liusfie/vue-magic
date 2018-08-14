@@ -4,10 +4,12 @@
         <header-bar/>
       </el-header>
       <el-container>
-        <el-aside><aside-bar/></el-aside>
-      <el-main>
-        <router-view/>
-      </el-main>
+        <el-aside style="width: 200px">
+          <aside-bar/>
+        </el-aside>
+        <el-main>
+          <router-view/>
+        </el-main>
       </el-container>
     </el-container>
 </template>
