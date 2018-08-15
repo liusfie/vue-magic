@@ -12,6 +12,10 @@ export default [
       {
         path: 'nginxinfo',
         component: utils.asyncComponent('platform/nginxInfo/index')
+      },
+      {
+        path: 'ownnetwork',
+        component: utils.asyncComponent('platform/ownNetwork/index')
       }
     ]
   }

@@ -190,7 +190,7 @@ export default {
     },
     // 触发删除dialog
     deleteDialog (rowData) {
-      this.$confirm('此操作将删除该配置, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该配置并取消此ip的封禁, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -1,23 +1,8 @@
 <template>
   <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false">
-    <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model.trim="form.name" placeholder="请输入名称"/>
-      </el-form-item>
-      <el-form-item label="域名：" prop="server_name">
-        <el-input v-model.trim="form.server_name" placeholder="请输入域名，如：api.ttacp8.com"/>
-      </el-form-item>
-      <el-form-item label="阈值：" prop="threshold">
-        <el-input v-model.number="form.threshold" placeholder="请输入触发封禁的阈值"/>
-      </el-form-item>
-      <el-form-item label="增长量：" prop="increase">
-        <el-input v-model.number="form.increase" placeholder="请输入触发封禁的增长量"/>
-      </el-form-item>
-      <el-form-item label="是否激活：">
-        <el-switch v-model.lazy="form.valid"/>
-      </el-form-item>
-      <el-form-item label="白名单：">
-        <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 6}" v-model.trim="form.whitelist" placeholder="请输入白名单"/>
+    <el-form :model="form" label-position="right" label-width="180px" :rules="rules" ref="forms">
+      <el-form-item label="内部IP地址或网段：" prop="network">
+        <el-input v-model.trim="form.network" placeholder="请输入内部IP地址或网段" />
       </el-form-item>
       <el-form-item label="备注：">
         <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>
@@ -31,8 +16,7 @@
 
 <script>
 import utils from '@/utils/utils'
-import { addBlockconf, updateBlockconf } from '@/api/autoDeny/blockConfAPI'
-import { isvalidDomainName } from '@/utils/validate'
+import { addOwnNetwork, updateOwnNetwork } from '@/api/platform/ownNetwork'
 
 export default {
   props: {
@@ -49,61 +33,20 @@ export default {
     }
   },
   data: function () {
-    const validDomainName = (rule, value, callback) => {
-      if (!isvalidDomainName(value)) {
-        callback(new Error('请输入正确的域名'))
-      } else {
-        callback()
-      }
-    }
     return {
       // dialog开关
       formVisible: false,
       // 表单数据
       form: {
-        name: '',
-        server_name: '',
-        productid: '',
-        threshold: '',
-        increase: '',
-        // switch组件手动开启后，新增数据默认valid为空，所以加了个默认值为true
-        valid: true,
-        remarks: '',
-        whitelist: ''
+        network: '',
+        remarks: ''
       },
       // 表单规则
       rules: {
-        name: [
+        network: [
           {
             required: true,
-            message: '请输入名称',
-            trigger: 'blur'
-          }
-        ],
-        server_name: [
-          {
-            required: true,
-            trigger: 'blur',
-            validator: validDomainName
-          }
-        ],
-        threshold: [
-          {
-            required: true,
-            type: 'number',
-            min: 1,
-            max: 9999,
-            message: '请填写封禁阈值（数字 1~9999）',
-            trigger: 'blur'
-          }
-        ],
-        increase: [
-          {
-            required: true,
-            type: 'number',
-            min: 1,
-            max: 9999,
-            message: '请填写封禁的增长量（数字 1~9999）',
+            message: '请输入内部IP地址或网段',
             trigger: 'blur'
           }
         ]
@@ -127,7 +70,7 @@ export default {
   methods: {
     // 初始化表单
     initForm () {
-      // 初始化表单数据和表单校验结果 （这个resetFields方法有点搞笑，它记录了第一次的非空赋值，所以，还是老老实实的自己把数据置空吧~）
+      // 初始化表单数据和表单校验结果（这个resetFields方法有点搞笑，它记录了第一次的非空赋值，所以，还是老老实实的自己把数据置空吧~）
       this.$refs.forms.resetFields()
     },
     // 填充表单
@@ -151,9 +94,8 @@ export default {
     },
     // 新增提交
     submitAdd () {
-      this.form.productid = this.$store.getters.productid
       const form = Object.assign({}, this.form)
-      addBlockconf(form).then(res => {
+      addOwnNetwork(form).then(res => {
         if (res.code === 201) {
           utils.message.call(this, '新增成功啦~ O(∩_∩)O', 'success')
           this.formVisible = false
@@ -166,7 +108,7 @@ export default {
     // 更新提交
     submitUpdate () {
       const form = Object.assign({}, this.form)
-      updateBlockconf(form.id, form).then(res => {
+      updateOwnNetwork(form.id, form).then(res => {
         if (res.code === 200) {
           utils.message.call(this, '更新成功', 'success')
           this.formVisible = false

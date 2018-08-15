@@ -13,21 +13,13 @@
               <el-button type="primary" @click="showAddDialog">新增</el-button>
               <el-button type="primary" @click="initTable">刷新</el-button>
             </el-form-item>
-            <el-form-item>
-              <el-select v-model="queryForm.product" clearable placeholder="通过产品筛选" @change="handlechangefilter" @clear="handleclearfilter">
-                <el-option v-for="item in this.$store.getters.products" :key="item.product" :value="item.product"/>
-              </el-select>
-            </el-form-item>
           </el-form>
         </el-col>
         <el-col>
-          <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
-            <el-table-column align="center" prop="ipaddrlan" label="内网IP地址"/>
-            <el-table-column align="center" prop="ipaddrwan" label="外网IP地址"/>
-            <el-table-column align="center" prop="product" label="所属产品"/>
-            <el-table-column align="center" prop="type" label="类型"/>
+          <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" highlight-current-row>
+            <el-table-column align="center" prop="network" label="IP网段"/>
             <el-table-column align="center" prop="remarks" label="备注"/>
-            <el-table-column label="操作" align="center" width="150">
+            <el-table-column label="操作" align="center" width="350">
               <template slot-scope="scope">
                 <el-col :span="12">
                   <el-button type="primary" icon="el-icon-edit" size="small" @click="updateDialog(scope.row)"/>
@@ -49,19 +41,16 @@
         </el-col>
       </el-row>
     </el-col>
-    <tablepanel :panelData="panelData"/>
   </el-row>
 </template>
 
 <script>
 import utils from '@/utils/utils'
-import { getNginxInfo, getNginxInfoDetail, deleteNginxInfo } from '@/api/platform/nginxInfo'
+import { getOwnNetwork, deleteOwnNetwork } from '@/api/platform/ownNetwork'
 import addUpdateDialog from './dialog'
-import Tablepanel from '@/components/tablepanel'
 
 export default {
   components: {
-    Tablepanel,
     // 添加、修改dialog
     addUpdateDialog
   },
@@ -69,7 +58,6 @@ export default {
     return {
       // 查询表单
       queryForm: {
-        product: '',
         searchcont: '',
         pageSize: 10,
         pageNum: 1
@@ -100,30 +88,19 @@ export default {
     this.initTable()
   },
   methods: {
-    // 显示细节信息
-    openDetails (row) {
-      getNginxInfoDetail(row.id).then(res => {
-        if (res.code === 200) {
-          this.panelData = res.data
-        } else {
-          utils.message.call(this, res.detail, 'error')
-        }
-      })
-    },
     // 初始化表格数据
     initTable () {
       const initQuery = {
         pageNum: 1,
         pageSize: 10
       }
-      initQuery.product = this.queryForm.product
       this.queryForm.searchcont = ''
       this.fetchAPI(initQuery)
     },
     // 请求api
     fetchAPI (params) {
       this.loading = true
-      getNginxInfo(params).then(res => {
+      getOwnNetwork(params).then(res => {
         this.loading = false
         if (res.code === 200) {
           this.tableData = res.data
@@ -199,7 +176,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          deleteNginxInfo(rowData.id).then(res => {
+          deleteOwnNetwork(rowData.id).then(res => {
             if (res.code === 200) {
               utils.message.call(this, res.detail, 'success')
               // 刷新页面
@@ -212,21 +189,6 @@ export default {
         .catch(() => {
           utils.message.call(this, '已取消删除!', 'info')
         })
-    },
-    // 修改产品筛选条件
-    handlechangefilter (val) {
-      // 查询条件
-      const pageForm = {
-        ...this.queryForm,
-        pageNum: this.tableData.pageNum || 1,
-        pageSize: this.tableData.pageSize || 10
-      }
-      // 请求API
-      this.fetchAPI(pageForm)
-    },
-    // 清空产品筛选条件
-    handleclearfilter () {
-      this.initTable()
     }
   }
 }
