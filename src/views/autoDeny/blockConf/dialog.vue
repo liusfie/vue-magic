@@ -1,9 +1,6 @@
 <template>
   <el-dialog :title="dialogKind.title" :visible.sync="formVisible" :close-on-click-modal="false">
     <el-form :model="form" label-position="right" label-width="140px" :rules="rules" ref="forms">
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model.trim="form.name" placeholder="请输入名称"/>
-      </el-form-item>
       <el-form-item label="域名：" prop="server_name">
         <el-input v-model.trim="form.server_name" placeholder="请输入域名，如：api.ttacp8.com"/>
       </el-form-item>
@@ -61,7 +58,6 @@ export default {
       formVisible: false,
       // 表单数据
       form: {
-        name: '',
         server_name: '',
         productid: '',
         threshold: '',
@@ -73,13 +69,6 @@ export default {
       },
       // 表单规则
       rules: {
-        name: [
-          {
-            required: true,
-            message: '请输入名称',
-            trigger: 'blur'
-          }
-        ],
         server_name: [
           {
             required: true,

@@ -17,7 +17,6 @@
         </el-col>
         <el-col>
           <el-table :data="tableData.list" stripe border v-loading="loading" size="medium" max-height="500" @row-click="openDetails" highlight-current-row>
-            <el-table-column align="center" prop="name" label="名称"/>
             <el-table-column align="center" prop="server_name" label="域名"/>
             <el-table-column align="center" prop="threshold" width="80" label="阈值"/>
             <el-table-column align="center" prop="increase" width="80" label="增长量"/>
