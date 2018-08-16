@@ -24,17 +24,14 @@ const service = axios.create({
   // body参数形式 数组a[0]=''&a[1]='' 对象形式a.b.c='' 过滤掉字符串为空、null、undefined的字段 默认Content-Type: x-www-form-urlencoded
   transformRequest: [
     function (data) {
-      const res = Qs.stringify(data, {
+      return Qs.stringify(data, {
         allowDots: true,
         filter: (prefix, value) => {
           // if (value === '') return
           return value
         },
         skipNulls: true
-      }
-      )
-      console.log(res)
-      return res
+      })
     }
   ]
 })
