@@ -78,10 +78,9 @@ export default {
       getUserProducts(params).then(res => {
         this.loading = false
         if (res.code === 200) {
-          if (res.data.length > 0) {
-            for (let i = 0; i < res.data.length; i++) {
-              this.hasProducts.push(res.data[i].usernameid)
-            }
+          this.hasProducts = []
+          for (let i = 0; i < res.data.length; i++) {
+            this.hasProducts.push(res.data[i].usernameid)
           }
         } else {
           utils.message.call(this, res.detail, 'error')
@@ -106,9 +105,9 @@ export default {
       })
     },
     // 关闭dialog
-    closethisdialog () {
-      this.formVisible = false
-    },
+    // closethisdialog () {
+    //   this.formVisible = false
+    // },
     handleChange (value, direction, movedKeys) {
       const data = {}
       data.keys = movedKeys

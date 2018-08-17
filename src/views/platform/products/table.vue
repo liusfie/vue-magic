@@ -205,21 +205,19 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
+      }).then(() => {
+        deleteProduct(rowData.id).then(res => {
+          if (res.code === 200) {
+            utils.message.call(this, res.detail, 'success')
+            // 刷新页面
+            this.initTable()
+          } else {
+            utils.message.call(this, res.detail, 'error')
+          }
+        })
+      }).catch(() => {
+        utils.message.call(this, '已取消删除!', 'info')
       })
-        .then(() => {
-          deleteProduct(rowData.id).then(res => {
-            if (res.code === 200) {
-              utils.message.call(this, res.detail, 'success')
-              // 刷新页面
-              this.initTable()
-            } else {
-              utils.message.call(this, res.detail, 'error')
-            }
-          })
-        })
-        .catch(() => {
-          utils.message.call(this, '已取消删除!', 'info')
-        })
     }
   }
 }
