@@ -14,7 +14,7 @@
         <el-switch v-model.lazy="form.valid"/>
       </el-form-item>
       <el-form-item label="白名单：">
-        <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 6}" v-model.trim="form.whitelist" placeholder="请输入白名单"/>
+        <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 6}" v-model.trim="form.whitelist" placeholder="请输入白名单，网段或IP之间以空格或换行分隔"/>
       </el-form-item>
       <el-form-item label="备注：">
         <el-input v-model.trim="form.remarks" placeholder="请输入备注"/>

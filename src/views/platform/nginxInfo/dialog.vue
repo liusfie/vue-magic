@@ -55,8 +55,7 @@ export default {
       }
     }
     return {
-      typeoptions: ['user', 'ms', 'inter'],
-      productoptions: ['人人中彩票', '天天爱彩票', '嗨玩游戏'],
+      typeoptions: ['user', 'ms', 'internal', 'confirm'],
       // dialog开关
       formVisible: false,
       // 表单数据
