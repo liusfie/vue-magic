@@ -68,7 +68,8 @@ export default {
     return {
       // 查询表单
       queryForm: {
-        productid: this.productidcompu,
+        // productid: this.productidcompu,
+        productid: '',
         searchcont: '',
         pageSize: 10,
         pageNum: 1
@@ -125,13 +126,9 @@ export default {
     },
     // 初始化表格数据
     initTable () {
-      const initQuery = {
-        productid: this.productidcompu,
-        pageNum: 1,
-        pageSize: 10
-      }
+      this.queryForm.productid = this.productidcompu
       this.queryForm.searchcont = ''
-      this.fetchAPI(initQuery)
+      this.fetchAPI(this.queryForm)
     },
     // 请求api
     fetchAPI (params) {
