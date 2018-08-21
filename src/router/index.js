@@ -8,6 +8,7 @@ import dashboad from '@/router/dashboad/index'
 import autodeny from '@/router/autoDeny/index'
 import platform from '@/router/platform/index'
 import yixin from '@/router/yixin/index'
+import scheduledTasks from '@/router/scheduledTasks/index'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,7 @@ const router = new VueRouter({
         ...dashboad,
         ...autodeny,
         ...yixin,
+        ...scheduledTasks,
         ...platform
       ]
     },
