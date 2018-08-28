@@ -51,7 +51,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    console.log(response.status)
+    // console.log(response.status)
     if (res.code > 299) {
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
       if (res.code === 490 || res.code === 491 || res.code === 492) {
