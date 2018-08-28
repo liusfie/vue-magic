@@ -55,11 +55,6 @@ service.interceptors.response.use(
     if (res.code > 299) {
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
       if (res.code === 490 || res.code === 491 || res.code === 492) {
-        Message({
-          message: res.detail,
-          type: 'warning',
-          duration: 5 * 1000
-        })
         store.dispatch('LogOut').then(() => {
           router.push({path: '/login'})
         })
