@@ -1,5 +1,8 @@
 <template>
-  <h1>欢迎使用</h1>
+  <div style="text-align: center">
+    <h1 style="margin: 10px;font-size: 63px">Magic Web Service</h1>
+    <p style="font-size: 21px">欢迎使用MAGIC运维平台</p>
+  </div>
 </template>
 
 <script>

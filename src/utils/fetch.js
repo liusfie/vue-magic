@@ -39,10 +39,13 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
+    // if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+    //   config.headers.Authorization = `token ${store.state.token}`
+    // }
     return config
   },
   error => {
-    console.log(error) // for debug
+    // console.log(error) // for debug
     return Promise.reject(error)
   }
 )
