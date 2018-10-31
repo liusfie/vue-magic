@@ -54,6 +54,3 @@ dev环境，由于跨域问题，利用request做了个代理，delete方法会�
         > classType: 类名
         > text: 展示的文案
         > fn: 默认给出了 修改和删除的处理形式， 如需其他情况请自行定义执行函数
-
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
