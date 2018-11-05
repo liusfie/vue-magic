@@ -24,7 +24,7 @@ npm run release
 npm 5.6.0
 node v8.11.2
 
-![Image text](https://raw.github.com/yourName/repositpry/master/yourprojectName/img-folder/test.jpg)
+![Image text](https://raw.github.com/liusfie/my_puppet/IMG20181105_173549.png)
 
 ## 关于proxy.js：
 dev环境，由于跨域问题，利用request做了个代理，delete方法会识别成“OPTIONS”，所以代理上判断方法为“OPTIONS”的统一转发为delete方法。
